@@ -153,3 +153,128 @@ ggsave(here("reports/figures/birdnet_calibration.png"), plot_calibration, width 
 plot_calibration
 ```
 
+## 4. Labelling the predictions
+
+The new `observation` field holds the species name when the prediction is at or above
+its species threshold and the threshold was released, and is empty otherwise.
+`production_observation` is the stricter version that excludes provisional species, and
+`decision_status` says why each prediction got the label it got.
+
+```{r}
+labeled <- pred |>
+  left_join(thresholds, by = "common_name") |>
+  mutate(
+    p_correct = plogis(intercept + slope * to_logit(confidence)),
+    is_observation = calibration_status %in% release_statuses & confidence >= threshold_99,
+    observation = if_else(is_observation, common_name, NA_character_),
+    production_observation = if_else(is_observation & calibration_status == "calibrated",
+                                     common_name, NA_character_),
+    decision_status = case_when(
+      is_observation & calibration_status == "calibrated" ~ "accepted",
+      is_observation                                       ~ "provisional_review",
+      calibration_status == "no_outcome_variation"         ~ "insufficient_validation",
+      calibration_status == "threshold_extrapolated"       ~ "extrapolation_not_allowed",
+      calibration_status == "model_failed"                 ~ "model_failed",
+      calibration_status == "non_positive_slope"           ~ "model_failed_direction",
+      TRUE                                                 ~ "below_99_percent_or_not_calibrated"
+    )
+  )
+
+summary_table <- labeled |>
+  group_by(common_name) |>
+  summarise(n_predictions = n(),
+            n_observations = sum(!is.na(observation)),
+            n_production = sum(!is.na(production_observation))) |>
+  left_join(select(thresholds, common_name, threshold_99, calibration_status), by = "common_name")
+
+knitr::kable(mutate(summary_table, threshold_99 = round(threshold_99, 3)))
+```
+
+```{r}
+dir.create(here("output/birds"), recursive = TRUE, showWarnings = FALSE)
+write_csv(select(labeled, -is_observation), here("output/birds/birdnet_predictions_labeled.csv"), na = "")
+write_csv(thresholds, here("output/birds/birdnet_species_thresholds.csv"), na = "")
+write_csv(summary_table, here("output/birds/birdnet_species_summary.csv"), na = "")
+```
+
+```{r, include=FALSE}
+# Numbers quoted in the text below, so they never go stale.
+th <- function(sp) filter(thresholds, common_name == sp)
+n_pred <- function(sp) sum(pred$common_name == sp)
+nj <- th("Abyssinian Nightjar"); or <- th("African Black-headed Oriole")
+rf <- th("Red-billed Firefinch"); tp <- th("Three-banded Plover")
+nj_above  <- filter(val, common_name == nj$common_name, confidence >= nj$threshold_99)
+plover_fp <- filter(val, common_name == tp$common_name, outcome == 0)
+n_needed  <- ceiling(log(0.05) / log(target_probability))  # error-free validations for a one-sided 95% bound >= 0.99
+```
+
+## 5. Decisions by species
+
+**Abyssinian Nightjar: calibrated, threshold `r round(nj$threshold_99, 3)`.** The only
+species with a clean curve: `r nj$n_incorrect` false positives spread across the score
+range. `r nrow(nj_above)` validated clips sit above the threshold and
+`r sum(nj_above$outcome == 0)` of them are wrong, so the 99% claim holds within the
+validated data. `r sum(labeled$decision_status == "accepted")` of
+`r n_pred(nj$common_name)` predictions become observations.
+
+**African Black-headed Oriole: no threshold, `r n_pred(or$common_name)` predictions
+(`r round(100 * n_pred(or$common_name) / nrow(pred))`% of the file) left unlabelled.**
+All `r or$n_validations` validations were correct, so there is no curve to fit. The
+tempting shortcut is to call every prediction an observation, but `r or$n_correct` of
+`r or$n_validations` only supports a precision of at least `r round(or$precision_lower95, 3)`
+at 95% confidence, below the 0.99 target; an error-free sample of about `r n_needed`
+clips would be needed to support it. I therefore keep the species unlabelled and
+recommend validating a further `r n_needed - or$n_validations` clips, concentrated in
+the lower score range where the first false positives would appear. If the project needs
+these clips now, the defensible provisional rule is a threshold at the lowest validated
+score (`r min(val$confidence[val$common_name == or$common_name])`), clearly marked as
+provisional.
+
+**Three-banded Plover: provisional, threshold `r round(tp$threshold_99, 3)`.** A single
+false positive (score `r plover_fp$confidence`) among `r tp$n_validations` validations.
+The GLM slope is not distinguishable from zero and the threshold is simply "just above
+that one clip", so it should not be read as a real 99% cutoff. The empirical precision is
+`r tp$n_correct`/`r tp$n_validations` with a 95% lower bound of
+`r round(tp$precision_lower95, 3)`. The `r sum(labeled$decision_status == "provisional_review")`
+predictions above the threshold are labelled for review but excluded from
+`production_observation`; a few more false positives in the validation set would settle it.
+
+**Red-billed Firefinch: excluded.** Only `r rf$n_correct` of `r rf$n_validations`
+validations were correct and the curve reaches 0.99 at `r round(rf$threshold_99, 3)`,
+above the highest validated score (`r rf$max_validated_score`). Releasing that threshold
+would mean trusting the model where it has never seen data, so none of the
+`r n_pred(rf$common_name)` predictions are labelled. BirdNET does not separate this
+species well in these recordings; a different detector or manual review is the realistic
+route.
+
+Net result: `r sum(!is.na(labeled$production_observation))` accepted observations and
+`r sum(labeled$decision_status == "provisional_review")` provisional ones out of
+`r nrow(pred)` predictions. That is deliberately conservative: a 99% rule applied
+honestly to four species with about 150 validations each does not leave much, and the
+value of the exercise is knowing which species need more validation effort.
+
+## 6. Notes for the Tech team
+
+- **Inputs**: the BirdNET predictions table (`common_name`, `confidence`, clip location)
+  and a validations table (`common_name`, `confidence`, `outcome` in {0, 1},
+  `vBirdNET`). Validations are keyed by species only; no join to predictions is needed.
+- **Calibration job** (runs when validations change, not per upload): per species and
+  BirdNET version, fit `glm(outcome ~ qlogis(confidence), family = binomial)`, solve for
+  p = 0.99, apply the rules in section 1, and upsert one row into a `species_thresholds`
+  table: `species, birdnet_version, n_validations, n_correct, n_incorrect, intercept,
+  slope, threshold_99, max_validated_score, calibration_status, fitted_at`. This file's
+  version is [`birdnet_species_thresholds.csv`](../../../output/birds/birdnet_species_thresholds.csv).
+- **Labelling job** (runs per upload, pure SQL): join predictions to `species_thresholds`
+  on species and BirdNET version; `observation = species` where
+  `calibration_status in ('calibrated', 'limited_negative_validation') and confidence >=
+  threshold_99`, else null; `decision_status` as in section 4. A species with no row in
+  the table gets `not_validated`, not an error.
+- **Assumptions to keep explicit**: BirdNET sensitivity = 1 (otherwise divide the logit
+  by the sensitivity used); thresholds are tied to the BirdNET version and to the
+  conditions of the validation data (site, season, recorder), so changing any of those
+  should trigger a new validation round, as Wood & Kahl recommend.
+- **Parameters** (`target_probability = 0.99`, `min_false_validations = 5`) live in one
+  place and should be configuration, not code.
+- **Dashboard**: the summary table and the calibration figure per species, plus the list
+  of species whose status is not `calibrated` with the number of validations needed. That
+  is what tells the ornithologist where to spend validation time.
