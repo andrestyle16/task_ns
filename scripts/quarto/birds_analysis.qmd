@@ -1,0 +1,155 @@
+---
+title: "BirdNET predictions to observations: species-specific 99% thresholds"
+subtitle: "Bird challenge, Grid2 passive acoustic monitoring, June-July 2023"
+toc: true
+format:
+  html:
+    code-fold: true
+    theme: simplex
+    fig-width: 9
+    fig-height: 6
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+
+here::i_am("scripts/r_code/quarto/birds_analysis.qmd")
+```
+
+## 1. Approach
+
+BirdNET confidence scores are unitless: a 0.6 for one species is not a 0.6 for another.
+Following Wood & Kahl (2024), I fit one logistic regression per species on the
+ornithologist-validated clips, `Pr(prediction is correct) ~ logit(confidence)`, and solve
+the fitted curve for the score at which that probability reaches 0.99. Every prediction
+at or above that score is labelled as an observation of the species; everything else keeps
+the label empty. The validation set is a subset of the predictions, but the two files
+share no stable key (the validation filename carries a rounded score), so the model is
+fitted by species and each prediction inherits the model of its species.
+
+A fitted threshold is only released when the model is trustworthy. The rules, in order:
+
+| Rule | Status | Effect |
+|:--|:--|:--|
+| Validations are all correct or all incorrect | `no_outcome_variation` | no model can be fitted; nothing labelled |
+| GLM did not converge or has non-finite coefficients | `model_failed` | nothing labelled |
+| Fitted slope is not positive | `non_positive_slope` | nothing labelled |
+| 0.99 is reached only above the highest validated score | `threshold_extrapolated` | nothing labelled |
+| Fewer than 5 incorrect validations | `limited_negative_validation` | labelled, but marked `provisional_review` |
+| Otherwise | `calibrated` | labelled, `accepted` |
+
+The "fewer than 5 false positives" rule is a transparent QC rule, not a statistical
+guarantee: with one or two false positives the curve is placed by a single point.
+
+```{r}
+target_probability    <- 0.99
+min_false_validations <- 5L
+release_statuses      <- c("calibrated", "limited_negative_validation")
+
+# BirdNET confidence = sigmoid(logit score * sensitivity); with the default
+# sensitivity of 1, qlogis() recovers the logit score the paper recommends modelling.
+to_logit <- function(x) qlogis(pmin(pmax(x, 1e-6), 1 - 1e-6))
+```
+
+## 2. Read and check data
+
+```{r}
+pred <- read_csv(here("input/birds/csv/birdnet_predictions.csv"), show_col_types = FALSE) |>
+  clean_names() |>
+  rowid_to_column("prediction_id")
+
+val <- read_csv(here("input/birds/csv/validation_results.csv"), show_col_types = FALSE) |>
+  clean_names() |>
+  mutate(score_logit = to_logit(confidence))
+
+stopifnot(
+  nrow(pred) > 0, nrow(val) > 0,
+  all(between(pred$confidence, 0, 1)), all(between(val$confidence, 0, 1)),
+  all(val$outcome %in% c(0, 1)),
+  all(pred$common_name %in% val$common_name)
+)
+```
+
+`r nrow(pred)` predictions for `r n_distinct(pred$common_name)` species, and
+`r nrow(val)` validated clips (`r sum(val$outcome == 1)` correct,
+`r sum(val$outcome == 0)` incorrect), all from BirdNET `r unique(val$v_bird_net)`. The
+validated scores span the full 0.1 to 1.0 range for every species, so they look like a
+stratified sample across scores rather than a random draw: the model estimates
+`Pr(correct | score)`, not the overall precision of a species.
+
+## 3. Species-specific thresholds
+
+```{r}
+fit_species <- function(d) {
+  failed <- tibble(intercept = NA_real_, slope = NA_real_, status = "model_failed")
+  if (n_distinct(d$outcome) < 2) return(mutate(failed, status = "no_outcome_variation"))
+  model <- suppressWarnings(glm(outcome ~ score_logit, family = binomial, data = d))
+  b <- coef(model)
+  if (!isTRUE(model$converged) || any(!is.finite(b))) return(failed)
+  tibble(intercept = b[[1]], slope = b[[2]],
+         status = if (b[[2]] > 0) "fitted" else "non_positive_slope")
+}
+
+thresholds <- val |>
+  group_by(common_name) |>
+  group_modify(~ bind_cols(
+    summarise(.x,
+              birdnet_version = paste(unique(v_bird_net), collapse = ";"),
+              n_validations = n(), n_correct = sum(outcome == 1), n_incorrect = sum(outcome == 0),
+              precision_lower95 = binom.test(n_correct, n_validations)$conf.int[1],
+              max_validated_score = max(confidence)),
+    fit_species(.x)
+  )) |>
+  ungroup() |>
+  mutate(
+    # Solve logit(0.99) = intercept + slope * logit(score) for the score.
+    threshold_99 = if_else(status == "fitted",
+                           plogis((qlogis(target_probability) - intercept) / slope), NA_real_),
+    calibration_status = case_when(
+      status != "fitted"                  ~ status,
+      threshold_99 > max_validated_score  ~ "threshold_extrapolated",
+      n_incorrect < min_false_validations ~ "limited_negative_validation",
+      TRUE                                ~ "calibrated"
+    )
+  ) |>
+  select(-status)
+
+thresholds |>
+  select(common_name, n_validations, n_correct, n_incorrect, precision_lower95,
+         intercept, slope, threshold_99, max_validated_score, calibration_status) |>
+  mutate(across(where(is.double), ~ round(.x, 3))) |>
+  knitr::kable()
+```
+
+```{r}
+#| fig-cap: "Points: validated clips (1 = correct). Blue: fitted curve, drawn only within the validated score range. Dashed: p = 0.99. Dotted: released threshold."
+curve_data <- val |>
+  summarise(lo = min(confidence), hi = max(confidence), .by = common_name) |>
+  inner_join(filter(thresholds, !is.na(slope)), by = "common_name") |>
+  reframe(confidence = seq(lo, hi, length.out = 200),
+          p_correct = plogis(intercept + slope * to_logit(confidence)),
+          .by = common_name) |>
+  mutate(score_logit = to_logit(confidence))
+
+plot_calibration <- ggplot(val, aes(score_logit, outcome)) +
+  geom_jitter(width = 0, height = 0.025, alpha = 0.35, size = 1.3) +
+  geom_line(data = curve_data, aes(y = p_correct), linewidth = 0.9, color = "#2563eb") +
+  geom_hline(yintercept = target_probability, linetype = "dashed") +
+  geom_vline(data = filter(thresholds, calibration_status %in% release_statuses),
+             aes(xintercept = to_logit(threshold_99)), linetype = "dotted", color = "#b91c1c") +
+  facet_wrap(~common_name, ncol = 2) +
+  coord_cartesian(xlim = c(-2.5, 7.5), ylim = c(0, 1)) +   # 2 Nightjar clips scored exactly 1.0 (logit 13.8) are off-axis
+  labs(x = "logit(BirdNET confidence score)", y = "Pr(prediction correct) / observed outcome") +
+  theme_minimal(base_size = 12)
+
+dir.create(here("reports/figures"), recursive = TRUE, showWarnings = FALSE)
+ggsave(here("reports/figures/birdnet_calibration.png"), plot_calibration, width = 9, height = 6, dpi = 150)
+plot_calibration
+```
+
