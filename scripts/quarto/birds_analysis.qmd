@@ -19,7 +19,7 @@ library(tidyverse)
 library(janitor)
 library(here)
 
-here::i_am("scripts/r_code/quarto/birds_analysis.qmd")
+here::i_am("scripts/quarto/birds_analysis.qmd")
 ```
 
 ## 1. Approach
