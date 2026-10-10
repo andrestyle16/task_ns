@@ -1,0 +1,5 @@
+common_name,n_predictions,n_observations,n_production,threshold_99,calibration_status
+Abyssinian Nightjar,10187,3147,3147,0.6666380604381834,calibrated
+African Black-headed Oriole,18054,0,0,,no_outcome_variation
+Red-billed Firefinch,235,0,0,0.9983797726298821,threshold_extrapolated
+Three-banded Plover,1015,538,0,0.25880210857700364,limited_negative_validation

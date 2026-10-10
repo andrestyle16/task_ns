@@ -1,0 +1,5 @@
+common_name,birdnet_version,n_validations,n_correct,n_incorrect,precision_lower95,max_validated_score,intercept,slope,threshold_99,calibration_status
+Abyssinian Nightjar,v2.4,150,117,33,0.705145926469139,1,3.158998283631853,2.0722703061274643,0.6666380604381834,calibrated
+African Black-headed Oriole,v2.4,150,150,0,0.9757074028338915,0.989,,,,no_outcome_variation
+Red-billed Firefinch,v2.4,101,6,95,0.022110572409418047,0.907,-1.4577788986162152,0.9422955371462737,0.9983797726298821,threshold_extrapolated
+Three-banded Plover,v2.4,150,149,1,0.9634168322594198,0.994,5.170345360692555,0.54668633044714,0.25880210857700364,limited_negative_validation
