@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.29">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Herbaceous vegetation surveys: data quality report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="vegetation_qaqc_files/libs/clipboard/clipboard.min.js"></script>
+<script src="vegetation_qaqc_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="vegetation_qaqc_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="vegetation_qaqc_files/libs/quarto-html/popper.min.js"></script>
+<script src="vegetation_qaqc_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="vegetation_qaqc_files/libs/quarto-html/anchor.min.js"></script>
+<link href="vegetation_qaqc_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="vegetation_qaqc_files/libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="vegetation_qaqc_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="vegetation_qaqc_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="vegetation_qaqc_files/libs/bootstrap/bootstrap-a0dfbe2913e9eb72eb5d3581013d8219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="vegetation_qaqc_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="vegetation_qaqc_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/datatables-binding-0.33/datatables.js"></script>
+
+<script src="vegetation_qaqc_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="vegetation_qaqc_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="vegetation_qaqc_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="vegetation_qaqc_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="vegetation_qaqc_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="vegetation_qaqc_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="vegetation_qaqc_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="vegetation_qaqc_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+<script src="vegetation_qaqc_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="vegetation_qaqc_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
+<link href="vegetation_qaqc_files/libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+
+<link href="vegetation_qaqc_files/libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+
+<script src="vegetation_qaqc_files/libs/selectize-0.12.0/selectize.min.js"></script>
+
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#approach" id="toc-approach" class="nav-link active" data-scroll-target="#approach">1. Approach</a></li>
+  <li><a href="#read-and-clean" id="toc-read-and-clean" class="nav-link" data-scroll-target="#read-and-clean">2. Read and clean</a></li>
+  <li><a href="#qaqc-checks" id="toc-qaqc-checks" class="nav-link" data-scroll-target="#qaqc-checks">3. QA/QC checks</a>
+  <ul class="collapse">
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key findings</a></li>
+  </ul></li>
+  <li><a href="#data-quality-report" id="toc-data-quality-report" class="nav-link" data-scroll-target="#data-quality-report">4. Data quality report</a>
+  <ul class="collapse">
+  <li><a href="#a.-survey-level-summary" id="toc-a.-survey-level-summary" class="nav-link" data-scroll-target="#a.-survey-level-summary">a. Survey-level summary</a></li>
+  <li><a href="#b.-plot-level-summary" id="toc-b.-plot-level-summary" class="nav-link" data-scroll-target="#b.-plot-level-summary">b. Plot-level summary</a></li>
+  <li><a href="#c.-assessment-of-sampling-effort" id="toc-c.-assessment-of-sampling-effort" class="nav-link" data-scroll-target="#c.-assessment-of-sampling-effort">c.&nbsp;Assessment of sampling effort</a></li>
+  <li><a href="#d.-map-of-transect-locations" id="toc-d.-map-of-transect-locations" class="nav-link" data-scroll-target="#d.-map-of-transect-locations">d.&nbsp;Map of transect locations</a></li>
+  </ul></li>
+  <li><a href="#all-flags" id="toc-all-flags" class="nav-link" data-scroll-target="#all-flags">5. All flags</a></li>
+  <li><a href="#notes-for-the-tech-team" id="toc-notes-for-the-tech-team" class="nav-link" data-scroll-target="#notes-for-the-tech-team">6. Notes for the Tech team</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Herbaceous vegetation surveys: data quality report</h1>
+<p class="subtitle lead">Savanna Monitoring Pilot (SAVMON), Lewa, baseline 2026</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"scripts/quarto/vegetation_qaqc.qmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="approach" class="level2">
+<h2 class="anchored" data-anchor-id="approach">1. Approach</h2>
+<p>The ODK exports are joined into four tidy tables (surveys, quadrats, species observations, transects) and run through QA/QC checks derived from the SOPs. Each check is one filter that appends rows to a single <code>flags</code> table; <strong>no data are modified</strong>. Submissions rejected in ODK Central are reported but excluded from the summaries. Thresholds live in <code>rules</code> so they can be tuned.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">quadrats_per_plot =</span> <span class="dv">20</span>L,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">transect_m        =</span> <span class="dv">50</span>, <span class="at">transect_tol_m =</span> <span class="dv">10</span>,   <span class="co"># SOP: 50 m belt transect</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">gps_max_m         =</span> <span class="dv">5</span>,                         <span class="co"># SOP: geopoint accuracy &lt;= 5 m</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">midpoint_shift_m  =</span> <span class="dv">25</span>,                        <span class="co"># SOP: midpoint moved at most 25 m</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">quadrat_offset_m  =</span> <span class="dv">15</span>,                        <span class="co"># 2.5 m belt + handheld-GPS error</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_min      =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">180</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="read-and-clean" class="level2">
+<h2 class="anchored" data-anchor-id="read-and-clean">2. Read and clean</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>read_ns <span class="ot">&lt;-</span> <span class="cf">function</span>(f) <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"input/vegetation/csv"</span>, f), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"odk_data_exports/herbaceous_veg_survey.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>qd <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"odk_data_exports/herbaceous_veg_survey-quadrat_repeat.csv"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ad <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"odk_data_exports/herbaceous_veg_survey-additional_species_repeat.csv"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>rg <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"odk_data_exports/register_vegetation_plots.csv"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>species       <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"entity_lists/species.csv"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>species_extra <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"entity_lists/species_extra.csv"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>species_ids   <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"entity_lists/species_extra_ids.csv"</span>)   <span class="co"># post-hoc identification of herb_NNN codes</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>centroids     <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"entity_lists/centroids.csv"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>team          <span class="ot">&lt;-</span> <span class="fu">read_ns</span>(<span class="st">"entity_lists/project_team.csv"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(qd<span class="sc">$</span>parent_key <span class="sc">%in%</span> sv<span class="sc">$</span>key), <span class="fu">all</span>(ad<span class="sc">$</span>parent_key <span class="sc">%in%</span> qd<span class="sc">$</span>key),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>          <span class="sc">!</span><span class="fu">anyDuplicated</span>(rg<span class="sc">$</span>plot_selection_plot_name), <span class="sc">!</span><span class="fu">anyDuplicated</span>(species_ids<span class="sc">$</span>species_number))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>team_of <span class="ot">&lt;-</span> <span class="cf">function</span>(uuids) <span class="fu">map_chr</span>(<span class="fu">str_split</span>(uuids, <span class="st">" "</span>), \(u) <span class="fu">paste</span>(team<span class="sc">$</span>label[<span class="fu">match</span>(u, team<span class="sc">$</span>id)], <span class="at">collapse =</span> <span class="st">", "</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> sv <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">survey_id =</span> key, <span class="at">plot =</span> plot_selection_plot_name, <span class="at">recorder =</span> field_team_specifics_recorder_label,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">team =</span> <span class="fu">team_of</span>(field_team_specifics_selected_project_team_uuid_multi),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> survey_begin_start_time, <span class="at">end =</span> survey_end_end_time, <span class="at">date =</span> <span class="fu">as_date</span>(start),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">duration_min =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end, start, <span class="at">units =</span> <span class="st">"mins"</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">quadrats_with_species_form =</span> survey_end_quadrats_with_species,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            review_state, <span class="at">rejected =</span> <span class="fu">coalesce</span>(review_state <span class="sc">==</span> <span class="st">"rejected"</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>quadrats <span class="ot">&lt;-</span> qd <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">quadrat_id =</span> key, <span class="at">survey_id =</span> parent_key, quadrat_number, <span class="at">herbs_present =</span> herbs_present <span class="sc">==</span> <span class="st">"yes"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">known_uuids =</span> herb_species_selected_herb_species_uuids, <span class="at">image =</span> quadrat_image,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">lon =</span> location_quadrat_longitude, <span class="at">lat =</span> location_quadrat_latitude,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">gps_accuracy =</span> location_quadrat_accuracy, <span class="at">comment =</span> quadrat_comment) <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(surveys, survey_id, plot, rejected), <span class="at">by =</span> <span class="st">"survey_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Species on the project list arrive as <code>species</code> uuids. Species not on the list or not identifiable in the field are written to <code>species_extra</code> as <code>herb_NNN</code> codes and identified later in <code>species_extra_ids</code>; a code still marked <code>Unknown</code> keeps its code as the name.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">select</span>(quadrat_id, <span class="at">species_uuid =</span> known_uuids) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_longer_delim</span>(species_uuid, <span class="st">" "</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(species_uuid), species_uuid <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(<span class="fu">select</span>(species, <span class="at">species_uuid =</span> id, <span class="at">name =</span> label), <span class="at">by =</span> <span class="st">"species_uuid"</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">source =</span> <span class="st">"list"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  ad <span class="sc">|&gt;</span> <span class="fu">transmute</span>(<span class="at">quadrat_id =</span> parent_key, <span class="at">source =</span> <span class="st">"extra"</span>, <span class="at">typed_name =</span> new_missing_canonical,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                  <span class="co"># reuse_* rows carry the uuid in select_*; new_* rows create the entity in target_extra_name</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">species_uuid =</span> <span class="fu">coalesce</span>(select_reuse_unknown, select_reuse_missing, target_extra_name)) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(species_extra <span class="sc">|&gt;</span> <span class="fu">transmute</span>(id, <span class="at">code =</span> <span class="fu">sprintf</span>(<span class="st">"%s_%03d"</span>, <span class="fu">if_else</span>(group_type <span class="sc">==</span> <span class="st">"herb"</span>, <span class="st">"herb"</span>, <span class="st">"wood"</span>), unknown_index)),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">by =</span> <span class="fu">c</span>(<span class="at">species_uuid =</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(species_ids <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">code =</span> species_number, <span class="at">identified =</span> species_name, <span class="at">id_notes =</span> notes), <span class="at">by =</span> <span class="st">"code"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">if_else</span>(<span class="fu">coalesce</span>(identified <span class="sc">!=</span> <span class="st">"Unknown"</span>, <span class="cn">FALSE</span>), identified, code))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(quadrats, quadrat_id, survey_id, plot, quadrat_number, rejected), <span class="at">by =</span> <span class="st">"quadrat_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">case_when</span>(source <span class="sc">==</span> <span class="st">"list"</span> <span class="sc">~</span> <span class="st">"on list"</span>, name <span class="sc">==</span> code <span class="sc">~</span> <span class="st">"unknown"</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"identified later"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="cf">function</span>(lon, lat) <span class="fu">st_as_sf</span>(<span class="fu">tibble</span>(lon, lat), <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>), <span class="at">crs =</span> <span class="dv">4326</span>, <span class="at">na.fail =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>geometry</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> rg <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">plot =</span> plot_selection_plot_name, <span class="at">plot_status =</span> plot_selection_sample_status,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">viable =</span> plot_selection_is_plot_viable <span class="sc">==</span> <span class="st">"yes"</span>, <span class="at">notes =</span> plot_selection_plot_establishment_notes,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">a =</span> <span class="fu">pt</span>(plot_metadata_collect_points_endpoint_a_location_endpoint_a_longitude,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                   plot_metadata_collect_points_endpoint_a_location_endpoint_a_latitude),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">m =</span> <span class="fu">pt</span>(plot_metadata_collect_points_midpoint_location_midpoint_longitude,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                   plot_metadata_collect_points_midpoint_location_midpoint_latitude),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">b =</span> <span class="fu">pt</span>(plot_metadata_collect_points_endpoint_b_location_endpoint_b_longitude,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                   plot_metadata_collect_points_endpoint_b_location_endpoint_b_latitude))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>prescribed <span class="ot">&lt;-</span> centroids <span class="sc">|&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(geometry, <span class="fu">c</span>(<span class="st">"c_lat"</span>, <span class="st">"c_lon"</span>), <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">extra =</span> <span class="st">"drop"</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">plot =</span> choice_name, sample_status, c_lon, c_lat,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">registered =</span> plot <span class="sc">%in%</span> plots<span class="sc">$</span>plot, <span class="at">surveyed =</span> plot <span class="sc">%in%</span> <span class="fu">filter</span>(surveys, <span class="sc">!</span>rejected)<span class="sc">$</span>plot)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>transects <span class="ot">&lt;-</span> plots <span class="sc">|&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(viable) <span class="sc">|&gt;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(prescribed, plot, c_lon, c_lat), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">line =</span> <span class="fu">st_sfc</span>(<span class="fu">map2</span>(a, b, \(p, q) <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">st_coordinates</span>(p), <span class="fu">st_coordinates</span>(q)))), <span class="at">crs =</span> <span class="dv">4326</span>),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">length_m =</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(a, b, <span class="at">by_element =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">midpoint_shift_m =</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(m, <span class="fu">pt</span>(c_lon, c_lat), <span class="at">by_element =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>quadrats <span class="ot">&lt;-</span> quadrats <span class="sc">|&gt;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(transects, plot, line), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">offset_m =</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(<span class="fu">pt</span>(lon, lat), line, <span class="at">by_element =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>line) <span class="sc">|&gt;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(obs <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name)) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">n_species =</span> <span class="fu">n_distinct</span>(name), <span class="at">.by =</span> quadrat_id), <span class="at">by =</span> <span class="st">"quadrat_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_species =</span> <span class="fu">coalesce</span>(n_species, <span class="dv">0</span>L))</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> surveys <span class="sc">|&gt;</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">summarise</span>(quadrats, <span class="at">n_quadrats =</span> <span class="fu">n</span>(), <span class="at">quadrats_with_species =</span> <span class="fu">sum</span>(n_species <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">.by =</span> survey_id), <span class="at">by =</span> <span class="st">"survey_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(n_quadrats, quadrats_with_species), \(x) <span class="fu">coalesce</span>(x, <span class="dv">0</span>L)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="qaqc-checks" class="level2">
+<h2 class="anchored" data-anchor-id="qaqc-checks">3. QA/QC checks</h2>
+<p><code>error</code>: record cannot be used as is. <code>warning</code>: needs review. <code>info</code>: documents a known situation.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>flag <span class="ot">&lt;-</span> <span class="cf">function</span>(df, level, check, severity, <span class="at">item =</span> <span class="cn">NA</span>, <span class="at">detail =</span> <span class="cn">NA</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(df, <span class="at">level =</span> .env<span class="sc">$</span>level, <span class="at">check =</span> .env<span class="sc">$</span>check, <span class="at">severity =</span> .env<span class="sc">$</span>severity, <span class="fu">across</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"survey_id"</span>))),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">item =</span> <span class="fu">as.character</span>({{ item }}), <span class="at">detail =</span> <span class="fu">as.character</span>({{ detail }}))   <span class="co"># bind_rows fills absent plot/survey_id with NA</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>list_names <span class="ot">&lt;-</span> species<span class="sc">$</span>label[species<span class="sc">$</span>groups <span class="sc">==</span> <span class="st">"herbaceous"</span>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>on_list    <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">map_chr</span>(x, \(n) <span class="fu">first</span>(<span class="fu">agrep</span>(n, list_names, <span class="at">max.distance =</span> <span class="fl">0.1</span>, <span class="at">value =</span> <span class="cn">TRUE</span>), <span class="at">default =</span> <span class="cn">NA</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>extra_taxa <span class="ot">&lt;-</span> obs <span class="sc">|&gt;</span> <span class="fu">filter</span>(source <span class="sc">==</span> <span class="st">"extra"</span>, <span class="sc">!</span><span class="fu">is.na</span>(code)) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">name =</span> <span class="fu">first</span>(name), <span class="at">typed_name =</span> <span class="fu">first</span>(<span class="fu">na.omit</span>(typed_name)), <span class="at">id_notes =</span> <span class="fu">first</span>(id_notes), <span class="at">.by =</span> code)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>flags <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span> <span class="fu">filter</span>(rejected) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"survey"</span>, <span class="st">"submission_rejected"</span>, <span class="st">"error"</span>, <span class="at">detail =</span> <span class="st">"excluded from summaries"</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span>rejected) <span class="sc">|&gt;</span> <span class="fu">add_count</span>(plot) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"survey"</span>, <span class="st">"duplicate_plot_submission"</span>, <span class="st">"error"</span>, <span class="at">detail =</span> date),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span> <span class="fu">filter</span>(n_quadrats <span class="sc">!=</span> rules<span class="sc">$</span>quadrats_per_plot) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"survey"</span>, <span class="st">"quadrat_count"</span>, <span class="st">"error"</span>, <span class="at">detail =</span> n_quadrats),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(duration_min) <span class="sc">|</span> <span class="sc">!</span><span class="fu">between</span>(duration_min, rules<span class="sc">$</span>duration_min[<span class="dv">1</span>], rules<span class="sc">$</span>duration_min[<span class="dv">2</span>])) <span class="sc">|&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">flag</span>(<span class="st">"survey"</span>, <span class="st">"duration_out_of_range"</span>, <span class="st">"warning"</span>, <span class="at">detail =</span> <span class="fu">round</span>(duration_min)),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span> <span class="fu">filter</span>(quadrats_with_species_form <span class="sc">!=</span> quadrats_with_species) <span class="sc">|&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">flag</span>(<span class="st">"survey"</span>, <span class="st">"form_summary_mismatch"</span>, <span class="st">"info"</span>, <span class="at">detail =</span> <span class="fu">str_glue</span>(<span class="st">"form {quadrats_with_species_form} vs recomputed {quadrats_with_species}"</span>)),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(image) <span class="sc">|</span> <span class="fu">is.na</span>(lon)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"missing_image_or_location"</span>, <span class="st">"error"</span>, <span class="at">item =</span> quadrat_number),</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">filter</span>(gps_accuracy <span class="sc">&gt;</span> rules<span class="sc">$</span>gps_max_m) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"gps_accuracy"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> quadrat_number, <span class="at">detail =</span> gps_accuracy),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">filter</span>(offset_m <span class="sc">&gt;</span> rules<span class="sc">$</span>quadrat_offset_m) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"quadrat_off_transect"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> quadrat_number, <span class="at">detail =</span> <span class="fu">round</span>(offset_m)),</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">filter</span>(herbs_present <span class="sc">!=</span> (n_species <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"herbs_present_inconsistent"</span>, <span class="st">"error"</span>, <span class="at">item =</span> quadrat_number, <span class="at">detail =</span> n_species),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  obs <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name)) <span class="sc">|&gt;</span> <span class="fu">count</span>(survey_id, plot, quadrat_number, name) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"duplicate_species_in_quadrat"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> quadrat_number, <span class="at">detail =</span> name),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  obs <span class="sc">|&gt;</span> <span class="fu">filter</span>(source <span class="sc">==</span> <span class="st">"extra"</span>, <span class="fu">is.na</span>(species_uuid)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"empty_species_entry"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> quadrat_number),</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  quadrats <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">nchar</span>(<span class="fu">str_squish</span>(comment)) <span class="sc">&lt;</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"quadrat"</span>, <span class="st">"uninformative_comment"</span>, <span class="st">"info"</span>, <span class="at">item =</span> quadrat_number, <span class="at">detail =</span> comment),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(typed_name, <span class="st">"^[A-Z][a-z-]+_[a-z-]+$"</span>)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"canonical_not_Genus_species"</span>, <span class="st">"info"</span>, <span class="at">item =</span> code, <span class="at">detail =</span> typed_name),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">on_list</span>(name)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(match)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"extra_species_already_on_list"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> code, <span class="at">detail =</span> <span class="fu">str_glue</span>(<span class="st">"{name} ~ {match}"</span>)),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">!=</span> code) <span class="sc">|&gt;</span> <span class="fu">add_count</span>(name) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"same_identification_multiple_codes"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> code, <span class="at">detail =</span> name),</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">str_to_lower</span>(typed_name) <span class="sc">!=</span> <span class="fu">str_to_lower</span>(name)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"typed_name_differs_from_identification"</span>, <span class="st">"info"</span>, <span class="at">item =</span> code, <span class="at">detail =</span> <span class="fu">str_glue</span>(<span class="st">"{typed_name} -&gt; {name}"</span>)),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(id_notes)) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"identification_note"</span>, <span class="st">"warning"</span>, <span class="at">item =</span> code, <span class="at">detail =</span> id_notes),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  extra_taxa <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">==</span> code) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"species"</span>, <span class="st">"still_unidentified"</span>, <span class="st">"info"</span>, <span class="at">item =</span> code),</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  transects <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">abs</span>(length_m <span class="sc">-</span> rules<span class="sc">$</span>transect_m) <span class="sc">&gt;</span> rules<span class="sc">$</span>transect_tol_m) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"plot"</span>, <span class="st">"transect_length"</span>, <span class="st">"warning"</span>, <span class="at">detail =</span> <span class="fu">round</span>(length_m)),</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  transects <span class="sc">|&gt;</span> <span class="fu">filter</span>(midpoint_shift_m <span class="sc">&gt;</span> rules<span class="sc">$</span>midpoint_shift_m) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"plot"</span>, <span class="st">"midpoint_shift"</span>, <span class="st">"warning"</span>, <span class="at">detail =</span> <span class="fu">round</span>(midpoint_shift_m)),</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  plots <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span>viable) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"plot"</span>, <span class="st">"plot_not_viable"</span>, <span class="st">"info"</span>, <span class="at">detail =</span> notes),</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  prescribed <span class="sc">|&gt;</span> <span class="fu">filter</span>(sample_status <span class="sc">==</span> <span class="st">"primary"</span>, <span class="sc">!</span>surveyed) <span class="sc">|&gt;</span> <span class="fu">flag</span>(<span class="st">"plot"</span>, <span class="st">"primary_plot_not_surveyed"</span>, <span class="st">"info"</span>, <span class="at">detail =</span> <span class="fu">if_else</span>(registered, <span class="st">"registered"</span>, <span class="st">"not registered"</span>))</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">"output/vegetation"</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(flags, <span class="fu">here</span>(<span class="st">"output/vegetation/herb_qaqc_flags.csv"</span>), <span class="at">na =</span> <span class="st">""</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># rejected submissions are reported above but excluded from everything that follows</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>valid_surveys  <span class="ot">&lt;-</span> <span class="fu">filter</span>(surveys, <span class="sc">!</span>rejected)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>valid_quadrats <span class="ot">&lt;-</span> <span class="fu">filter</span>(quadrats, <span class="sc">!</span>rejected)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>valid_obs      <span class="ot">&lt;-</span> <span class="fu">filter</span>(obs, <span class="sc">!</span>rejected, <span class="sc">!</span><span class="fu">is.na</span>(name))</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>n_flags <span class="ot">&lt;-</span> <span class="cf">function</span>(df, by) df <span class="sc">|&gt;</span> <span class="fu">filter</span>(severity <span class="sc">!=</span> <span class="st">"info"</span>, <span class="sc">!</span><span class="fu">is.na</span>(.data[[by]])) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">n_flags =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">all_of</span>(by))</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>flags <span class="sc">|&gt;</span> <span class="fu">count</span>(level, severity, check) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(level, severity) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">level</th>
+<th style="text-align: left;">severity</th>
+<th style="text-align: left;">check</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">plot</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">plot_not_viable</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plot</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">primary_plot_not_surveyed</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">plot</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">midpoint_shift</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plot</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">transect_length</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quadrat</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">uninformative_comment</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quadrat</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">duplicate_species_in_quadrat</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quadrat</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">empty_species_entry</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quadrat</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">quadrat_off_transect</td>
+<td style="text-align: right;">66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">canonical_not_Genus_species</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">still_unidentified</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">typed_name_differs_from_identification</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">extra_species_already_on_list</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">identification_note</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">species</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">same_identification_multiple_codes</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">survey</td>
+<td style="text-align: left;">error</td>
+<td style="text-align: left;">submission_rejected</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">survey</td>
+<td style="text-align: left;">info</td>
+<td style="text-align: left;">form_summary_mismatch</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">survey</td>
+<td style="text-align: left;">warning</td>
+<td style="text-align: left;">duration_out_of_range</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="key-findings" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings">Key findings</h3>
+<p><strong>Submissions.</strong> 32 submissions between 19 and 27 May 2026 by two recorders. Two are duplicates of plots 18 and 21 that were rejected in ODK Central, and the remaining 30 all have 20 quadrats. Durations range from 33 to 236 minutes; the longest (Plot_08) was the first survey of the campaign, and the two rejected duplicates were the only ones under 30 minutes. There is no sign of rushed or incomplete surveys.</p>
+<p><strong>Coverage.</strong> Of 36 prescribed primary plots, 29 were surveyed. Plot_23 was registered as non-viable (private property) and correctly replaced by backup Plot_46; the other 6 were never registered. The baseline is therefore 6 plots short of the design until those are visited or replaced with backups.</p>
+<p><strong>Transect layout.</strong> Six A-B lengths fall outside 40-60 m. Four are 60-66 m, which is within GPS error at both ends, but Plot_19 (23 m) and Plot_27 (29 m) are half the prescribed length: either an endpoint was recorded near the midpoint or the tape was not fully laid out. Plot_14’s midpoint is 34 m from its prescribed centroid, over the 25 m limit. 65 quadrats (11%) sit more than 15 m from the A-B line, concentrated in Plot_05 (16 quadrats, median 22 m) and Plot_27 (10). With 5 m GPS accuracy these are layout errors rather than noise, and both plots should be treated as suspect until the field team confirms where the quadrats were placed.</p>
+<p><strong>Species list.</strong> Only 28 of the 121 taxa recorded were on the project list; 67 were entered as missing or unknown and identified afterwards, and 28 remain unidentified codes. 58% of all records went through the free-text route, which is the main quality risk in this dataset: seven of the “new” species were already on the list (e.g.&nbsp;<em>Chloris virgata</em>, <em>Cenchrus ciliaris</em>), seven species were entered under two to four different codes (16 codes in total), five typed names have spelling errors, and the identification notes mark four codes as duplicates of other codes and two as woody plants to exclude. The project list should be updated with the identified species before the next survey. Until duplicate codes are merged, richness values in this report are upper bounds.</p>
+<p><strong>Quadrat records.</strong> Seven quadrats have the same species entered twice, one species entry is empty, and seven comments are punctuation only. All minor, but the duplicates show that the form lets a species be selected both from the list and as an additional entry.</p>
+<p><strong>Form behaviour.</strong> The form’s own count of quadrats with species undercounts in 23 of 32 submissions. This is a calculation-timing issue in the ODK form, not a field error, and the platform should recompute it.</p>
+</section>
+</section>
+<section id="data-quality-report" class="level2">
+<h2 class="anchored" data-anchor-id="data-quality-report">4. Data quality report</h2>
+<section id="a.-survey-level-summary" class="level3">
+<h3 class="anchored" data-anchor-id="a.-survey-level-summary">a. Survey-level summary</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(obs <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name)) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">n_taxa =</span> <span class="fu">n_distinct</span>(name), <span class="at">n_unknown =</span> <span class="fu">n_distinct</span>(name[status <span class="sc">==</span> <span class="st">"unknown"</span>]), <span class="at">.by =</span> survey_id), <span class="at">by =</span> <span class="st">"survey_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">n_flags</span>(flags, <span class="st">"survey_id"</span>), <span class="at">by =</span> <span class="st">"survey_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(plot, date, recorder, team, <span class="at">duration_min =</span> <span class="fu">round</span>(duration_min), n_quadrats, quadrats_with_species,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            n_taxa, n_unknown, <span class="at">n_flags =</span> <span class="fu">coalesce</span>(n_flags, <span class="dv">0</span>L), review_state) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>(<span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">40</span>, <span class="at">dom =</span> <span class="st">"t"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ddaf809cd08f0ba56d8e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ddaf809cd08f0ba56d8e">{"x":{"filter":"none","vertical":false,"data":[["SavMon_LW_Plot_08","SavMon_LW_Plot_03","SavMon_LW_Plot_22","SavMon_LW_Plot_12","SavMon_LW_Plot_09","SavMon_LW_Plot_14","SavMon_LW_Plot_10","SavMon_LW_Plot_30","SavMon_LW_Plot_46","SavMon_LW_Plot_19","SavMon_LW_Plot_27","SavMon_LW_Plot_26","SavMon_LW_Plot_05","SavMon_LW_Plot_28","SavMon_LW_Plot_01","SavMon_LW_Plot_13","SavMon_LW_Plot_17","SavMon_LW_Plot_06","SavMon_LW_Plot_07","SavMon_LW_Plot_15","SavMon_LW_Plot_20","SavMon_LW_Plot_24","SavMon_LW_Plot_02","SavMon_LW_Plot_25","SavMon_LW_Plot_04","SavMon_LW_Plot_21","SavMon_LW_Plot_21","SavMon_LW_Plot_18","SavMon_LW_Plot_11","SavMon_LW_Plot_18","SavMon_LW_Plot_29","SavMon_LW_Plot_16"],["2026-05-19","2026-05-20","2026-05-20","2026-05-20","2026-05-21","2026-05-21","2026-05-21","2026-05-21","2026-05-22","2026-05-22","2026-05-22","2026-05-22","2026-05-22","2026-05-23","2026-05-23","2026-05-23","2026-05-23","2026-05-23","2026-05-24","2026-05-24","2026-05-24","2026-05-24","2026-05-24","2026-05-25","2026-05-25","2026-05-26","2026-05-26","2026-05-26","2026-05-26","2026-05-26","2026-05-26","2026-05-27"],["Sam","Sam","Sam","Sam","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Sam","Grace","Grace","Grace","Grace","Sam","Grace"],["Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Grace, Wanjiku","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Grace, Wanjiku","Sam, Wanjiku, Grace","Sam, Wanjiku, Grace","Sam, Grace, Wanjiku","Sam, Grace, Wanjiku","Sam, Grace, Wanjiku","Sam, Wanjiku, Grace"],[236,59,73,165,82,58,63,101,33,60,67,110,102,64,70,70,44,92,56,60,54,38,100,63,56,25,68,53,54,26,42,51],[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20],[20,18,20,20,20,20,20,20,20,19,20,20,19,19,20,20,20,20,20,20,20,20,19,20,19,20,20,20,20,20,20,20],[26,15,20,33,27,17,21,24,8,19,22,23,16,22,31,12,22,24,18,21,17,11,18,31,20,30,30,28,25,25,24,23],[3,7,4,4,4,2,1,3,1,1,3,4,1,4,2,3,6,4,5,1,0,1,1,3,6,5,4,5,2,4,2,3],[5,1,2,5,1,4,0,1,0,6,10,0,16,1,2,6,0,3,3,0,0,0,0,1,1,2,1,1,2,4,1,0],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"rejected",null,null,null,"rejected",null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>plot<\/th>\n      <th>date<\/th>\n      <th>recorder<\/th>\n      <th>team<\/th>\n      <th>duration_min<\/th>\n      <th>n_quadrats<\/th>\n      <th>quadrats_with_species<\/th>\n      <th>n_taxa<\/th>\n      <th>n_unknown<\/th>\n      <th>n_flags<\/th>\n      <th>review_state<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":40,"dom":"t","columnDefs":[{"className":"dt-right","targets":[4,5,6,7,8,9]},{"name":"plot","targets":0},{"name":"date","targets":1},{"name":"recorder","targets":2},{"name":"team","targets":3},{"name":"duration_min","targets":4},{"name":"n_quadrats","targets":5},{"name":"quadrats_with_species","targets":6},{"name":"n_taxa","targets":7},{"name":"n_unknown","targets":8},{"name":"n_flags","targets":9},{"name":"review_state","targets":10}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="b.-plot-level-summary" class="level3">
+<h3 class="anchored" data-anchor-id="b.-plot-level-summary">b. Plot-level summary</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plot_summary <span class="ot">&lt;-</span> valid_surveys <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(plot, date, recorder) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">summarise</span>(valid_quadrats, <span class="at">quadrats_with_herbs =</span> <span class="fu">sum</span>(herbs_present), <span class="at">mean_quadrat_richness =</span> <span class="fu">round</span>(<span class="fu">mean</span>(n_species), <span class="dv">1</span>), <span class="at">.by =</span> plot), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">summarise</span>(valid_obs, <span class="at">on_list =</span> <span class="fu">n_distinct</span>(name[status <span class="sc">==</span> <span class="st">"on list"</span>]), <span class="at">identified_later =</span> <span class="fu">n_distinct</span>(name[status <span class="sc">==</span> <span class="st">"identified later"</span>]),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">unknown =</span> <span class="fu">n_distinct</span>(name[status <span class="sc">==</span> <span class="st">"unknown"</span>]), <span class="at">.by =</span> plot), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">transmute</span>(transects, plot, plot_status, <span class="at">length_m =</span> <span class="fu">round</span>(length_m), <span class="at">midpoint_shift_m =</span> <span class="fu">round</span>(midpoint_shift_m)), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(flags <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(survey_id) <span class="sc">|</span> <span class="sc">!</span>survey_id <span class="sc">%in%</span> surveys<span class="sc">$</span>survey_id[surveys<span class="sc">$</span>rejected]) <span class="sc">|&gt;</span> <span class="fu">n_flags</span>(<span class="st">"plot"</span>), <span class="at">by =</span> <span class="st">"plot"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">richness =</span> on_list <span class="sc">+</span> identified_later <span class="sc">+</span> unknown, <span class="at">n_flags =</span> <span class="fu">coalesce</span>(n_flags, <span class="dv">0</span>L)) <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(plot)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(plot_summary, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">40</span>, <span class="at">dom =</span> <span class="st">"t"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-cd9c468025c24d5e34d0" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cd9c468025c24d5e34d0">{"x":{"filter":"none","vertical":false,"data":[["SavMon_LW_Plot_01","SavMon_LW_Plot_02","SavMon_LW_Plot_03","SavMon_LW_Plot_04","SavMon_LW_Plot_05","SavMon_LW_Plot_06","SavMon_LW_Plot_07","SavMon_LW_Plot_08","SavMon_LW_Plot_09","SavMon_LW_Plot_10","SavMon_LW_Plot_11","SavMon_LW_Plot_12","SavMon_LW_Plot_13","SavMon_LW_Plot_14","SavMon_LW_Plot_15","SavMon_LW_Plot_16","SavMon_LW_Plot_17","SavMon_LW_Plot_18","SavMon_LW_Plot_19","SavMon_LW_Plot_20","SavMon_LW_Plot_21","SavMon_LW_Plot_22","SavMon_LW_Plot_24","SavMon_LW_Plot_25","SavMon_LW_Plot_26","SavMon_LW_Plot_27","SavMon_LW_Plot_28","SavMon_LW_Plot_29","SavMon_LW_Plot_30","SavMon_LW_Plot_46"],["2026-05-23","2026-05-24","2026-05-20","2026-05-25","2026-05-22","2026-05-23","2026-05-24","2026-05-19","2026-05-21","2026-05-21","2026-05-26","2026-05-20","2026-05-23","2026-05-21","2026-05-24","2026-05-27","2026-05-23","2026-05-26","2026-05-22","2026-05-24","2026-05-26","2026-05-20","2026-05-24","2026-05-25","2026-05-22","2026-05-22","2026-05-23","2026-05-26","2026-05-21","2026-05-22"],["Grace","Grace","Sam","Grace","Grace","Grace","Grace","Sam","Grace","Grace","Grace","Sam","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Grace","Sam","Grace","Grace","Grace","Grace","Grace","Sam","Grace","Grace"],[20,19,18,19,19,20,20,20,20,20,20,20,20,20,20,20,20,20,19,20,20,20,20,20,20,20,19,20,20,20],[4.4,2.5,2.1,2.6,2.1,4,3.8,5.2,4.5,3.4,3.6,5.2,3.3,3.9,2,4.5,3.8,3.6,2.7,2.8,4.7,3.2,1.9,4.2,3.2,3.6,3.1,4.2,4,2],[16,6,3,4,8,6,6,10,9,9,9,13,4,8,6,9,7,11,8,6,15,7,4,13,8,11,8,12,12,4],[13,11,5,10,7,14,7,13,14,11,14,16,5,7,14,11,9,12,10,11,11,9,6,15,11,8,10,10,9,3],[2,1,7,6,1,4,5,3,4,1,2,4,3,2,1,3,6,5,1,0,4,4,1,3,4,3,4,2,3,1],["primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","primary","backup"],[63,54,57,53,46,48,52,48,46,57,42,42,56,44,60,58,50,46,23,45,45,66,51,43,50,29,40,62,51,47],[11,13,5,6,20,4,6,6,5,10,12,12,14,34,15,4,24,3,4,5,14,18,6,3,8,20,1,8,15,6],[3,0,1,1,16,3,3,5,1,0,2,5,6,5,1,0,0,1,7,0,1,3,0,1,0,11,1,2,1,0],[31,18,15,20,16,24,18,26,27,21,25,33,12,17,21,23,22,28,19,17,30,20,11,31,23,22,22,24,24,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>plot<\/th>\n      <th>date<\/th>\n      <th>recorder<\/th>\n      <th>quadrats_with_herbs<\/th>\n      <th>mean_quadrat_richness<\/th>\n      <th>on_list<\/th>\n      <th>identified_later<\/th>\n      <th>unknown<\/th>\n      <th>plot_status<\/th>\n      <th>length_m<\/th>\n      <th>midpoint_shift_m<\/th>\n      <th>n_flags<\/th>\n      <th>richness<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":40,"dom":"t","columnDefs":[{"className":"dt-right","targets":[3,4,5,6,7,9,10,11,12]},{"name":"plot","targets":0},{"name":"date","targets":1},{"name":"recorder","targets":2},{"name":"quadrats_with_herbs","targets":3},{"name":"mean_quadrat_richness","targets":4},{"name":"on_list","targets":5},{"name":"identified_later","targets":6},{"name":"unknown","targets":7},{"name":"plot_status","targets":8},{"name":"length_m","targets":9},{"name":"midpoint_shift_m","targets":10},{"name":"n_flags","targets":11},{"name":"richness","targets":12}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plot_summary <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(on_list, identified_later, unknown), <span class="at">names_to =</span> <span class="st">"status"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="fu">fct_rev</span>(plot), <span class="at">fill =</span> status)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of taxa"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="vegetation_qaqc_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Taxa per plot by identification status. Unknown codes may duplicate each other, so richness is an upper bound.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="c.-assessment-of-sampling-effort" class="level3">
+<h3 class="anchored" data-anchor-id="c.-assessment-of-sampling-effort">c.&nbsp;Assessment of sampling effort</h3>
+<p>30 valid submissions covered 600 quadrats and recorded 121 taxa, of which 28 are still unidentified codes. Coverage of the prescribed design, species accumulation and a Chao estimate of the species pool:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prescribed <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">prescribed =</span> <span class="fu">n</span>(), <span class="at">registered =</span> <span class="fu">sum</span>(registered), <span class="at">surveyed =</span> <span class="fu">sum</span>(surveyed), <span class="at">.by =</span> sample_status) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">sample_status</th>
+<th style="text-align: right;">prescribed</th>
+<th style="text-align: right;">registered</th>
+<th style="text-align: right;">surveyed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">backup</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">primary</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">29</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>comm <span class="ot">&lt;-</span> <span class="cf">function</span>(unit, ids) valid_obs <span class="sc">|&gt;</span> <span class="fu">distinct</span>(<span class="at">u =</span> .data[[unit]], name) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">p =</span> <span class="dv">1</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">u =</span> ids, name, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">p =</span> <span class="dv">0</span>L)) <span class="sc">|&gt;</span>   <span class="co"># keeps quadrats with no herbs as sampling units</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> name, <span class="at">values_from =</span> p) <span class="sc">|&gt;</span> <span class="fu">column_to_rownames</span>(<span class="st">"u"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>comms <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">quadrats =</span> <span class="fu">comm</span>(<span class="st">"quadrat_id"</span>, valid_quadrats<span class="sc">$</span>quadrat_id), <span class="at">plots =</span> <span class="fu">comm</span>(<span class="st">"plot"</span>, valid_surveys<span class="sc">$</span>plot))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">imap</span>(comms, \(x, unit) { a <span class="ot">&lt;-</span> <span class="fu">specaccum</span>(x, <span class="st">"exact"</span>); <span class="fu">tibble</span>(unit, <span class="at">sites =</span> a<span class="sc">$</span>sites, <span class="at">richness =</span> a<span class="sc">$</span>richness, <span class="at">sd =</span> a<span class="sc">$</span>sd) }) <span class="sc">|&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(sites, richness)) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> richness <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd, <span class="at">ymax =</span> richness <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>unit, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sampling units"</span>, <span class="at">y =</span> <span class="st">"Taxa"</span>) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="vegetation_qaqc_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">specpool</span>(comms<span class="sc">$</span>plots) <span class="sc">|&gt;</span> <span class="fu">select</span>(Species, chao, chao.se, jack1, n) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Species</th>
+<th style="text-align: right;">chao</th>
+<th style="text-align: right;">chao.se</th>
+<th style="text-align: right;">jack1</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">161.6</td>
+<td style="text-align: right;">16.9</td>
+<td style="text-align: right;">160.6</td>
+<td style="text-align: right;">30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Both curves are still rising and Chao estimates about 162 ± 17 taxa against 121 observed, so roughly three quarters of the herbaceous pool was captured. The per-quadrat curve flattens well before 600 units while the per-plot curve does not, so additional plots, not more quadrats per plot, would add species. Richness per plot ranges from 8 to 33 taxa. Because unidentified codes may duplicate each other, these numbers are upper bounds.</p>
+</section>
+<section id="d.-map-of-transect-locations" class="level3">
+<h3 class="anchored" data-anchor-id="d.-map-of-transect-locations">d.&nbsp;Map of transect locations</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>flagged <span class="ot">&lt;-</span> flags<span class="sc">$</span>plot[flags<span class="sc">$</span>level <span class="sc">==</span> <span class="st">"plot"</span> <span class="sc">&amp;</span> flags<span class="sc">$</span>severity <span class="sc">==</span> <span class="st">"warning"</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">data =</span> prescribed, <span class="at">lng =</span> <span class="sc">~</span>c_lon, <span class="at">lat =</span> <span class="sc">~</span>c_lat, <span class="at">radius =</span> <span class="dv">6</span>, <span class="at">weight =</span> <span class="fl">1.5</span>, <span class="at">fillOpacity =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"#ccc"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label =</span> <span class="sc">~</span><span class="fu">str_glue</span>(<span class="st">"{plot} ({sample_status}, {if_else(surveyed, 'surveyed', 'not surveyed')})"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolylines</span>(<span class="at">data =</span> transects <span class="sc">|&gt;</span> <span class="fu">select</span>(plot, length_m, midpoint_shift_m, <span class="at">geometry =</span> line) <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>(), <span class="at">weight =</span> <span class="dv">4</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="sc">~</span><span class="fu">if_else</span>(plot <span class="sc">%in%</span> flagged, <span class="st">"#b91c1c"</span>, <span class="st">"#2563eb"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">label =</span> <span class="sc">~</span><span class="fu">str_glue</span>(<span class="st">"{plot}: A-B {round(length_m)} m, midpoint shift {round(midpoint_shift_m)} m"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">data =</span> valid_quadrats, <span class="at">lng =</span> <span class="sc">~</span>lon, <span class="at">lat =</span> <span class="sc">~</span>lat, <span class="at">radius =</span> <span class="dv">3</span>, <span class="at">stroke =</span> <span class="cn">FALSE</span>, <span class="at">fillOpacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">if_else</span>(offset_m <span class="sc">&gt;</span> rules<span class="sc">$</span>quadrat_offset_m, <span class="st">"#b91c1c"</span>, <span class="st">"#16a34a"</span>),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label =</span> <span class="sc">~</span><span class="fu">str_glue</span>(<span class="st">"{plot} Q{quadrat_number}: {n_species} taxa, {round(offset_m)} m off line"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-2254acef67856a2e2fa6" style="width:100%;height:361px;"></div>
+<script type="application/json" data-for="htmlwidget-2254acef67856a2e2fa6">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[0.2693616,0.2182889,0.2266391,0.2342764,0.2196365,0.2364091,0.2260456,0.2405294,0.2357106,0.2743851,0.2266384,0.2341812,0.2174808,0.217576,0.2190201,0.2333732,0.2378282,0.2255586,0.2347983,0.2191868,0.2225142,0.2324023,0.2195459,0.2347116,0.2343585,0.2223278,0.231658,0.2315995,0.2731281,0.2255678,0.2340861,0.2313134,0.2220553,0.227747,0.2423936,0.2196273,0.2297163,0.2207025,0.2233124,0.2208843,0.2197087,0.2381729,0.2406869,0.2853977,0.256637,0.2771525,0.2316337,0.2542142,0.261293,0.2754511,0.264256],[37.4967625,37.4838094,37.4397295,37.4001234,37.4780622,37.4288058,37.3568228,37.4294111,37.3911804,37.4865113,37.4607767,37.4033148,37.4914745,37.4882832,37.4372502,37.4109799,37.4830092,37.4569639,37.4230795,37.4940094,37.4391335,37.3829238,37.4812442,37.4262754,37.3969368,37.4665541,37.4294877,37.3695323,37.4890765,37.4359212,37.4065061,37.4001536,37.4761233,37.3593671,37.4887007,37.4991049,37.3733754,37.502927,37.4735582,37.4965398,37.5169656,37.5123433,37.507213,37.5151218,37.507721,37.5139204,37.5136768,37.509646,37.5102304,37.5113761,37.5102002],6,null,null,{"interactive":true,"className":"","stroke":true,"color":"#ccc","weight":1.5,"opacity":0.5,"fill":true,"fillColor":"#ccc","fillOpacity":0.2},null,null,null,null,["SavMon_LW_Plot_46 (backup, surveyed)","SavMon_LW_Plot_45 (backup, not surveyed)","SavMon_LW_Plot_44 (backup, not surveyed)","SavMon_LW_Plot_43 (backup, not surveyed)","SavMon_LW_Plot_42 (backup, not surveyed)","SavMon_LW_Plot_41 (backup, not surveyed)","SavMon_LW_Plot_40 (backup, not surveyed)","SavMon_LW_Plot_39 (backup, not surveyed)","SavMon_LW_Plot_38 (backup, not surveyed)","SavMon_LW_Plot_37 (backup, not surveyed)","SavMon_LW_Plot_29 (primary, surveyed)","SavMon_LW_Plot_28 (primary, surveyed)","SavMon_LW_Plot_27 (primary, surveyed)","SavMon_LW_Plot_26 (primary, surveyed)","SavMon_LW_Plot_25 (primary, surveyed)","SavMon_LW_Plot_24 (primary, surveyed)","SavMon_LW_Plot_23 (primary, not surveyed)","SavMon_LW_Plot_21 (primary, surveyed)","SavMon_LW_Plot_20 (primary, surveyed)","SavMon_LW_Plot_19 (primary, surveyed)","SavMon_LW_Plot_18 (primary, surveyed)","SavMon_LW_Plot_17 (primary, surveyed)","SavMon_LW_Plot_16 (primary, surveyed)","SavMon_LW_Plot_15 (primary, surveyed)","SavMon_LW_Plot_13 (primary, surveyed)","SavMon_LW_Plot_11 (primary, surveyed)","SavMon_LW_Plot_07 (primary, surveyed)","SavMon_LW_Plot_06 (primary, surveyed)","SavMon_LW_Plot_05 (primary, surveyed)","SavMon_LW_Plot_04 (primary, surveyed)","SavMon_LW_Plot_02 (primary, surveyed)","SavMon_LW_Plot_01 (primary, surveyed)","SavMon_LW_Plot_03 (primary, surveyed)","SavMon_LW_Plot_08 (primary, surveyed)","SavMon_LW_Plot_09 (primary, surveyed)","SavMon_LW_Plot_10 (primary, surveyed)","SavMon_LW_Plot_12 (primary, surveyed)","SavMon_LW_Plot_14 (primary, surveyed)","SavMon_LW_Plot_22 (primary, surveyed)","SavMon_LW_Plot_30 (primary, surveyed)","SavMon_LW_Plot_31 (primary, not surveyed)","SavMon_LW_Plot_32 (primary, not surveyed)","SavMon_LW_Plot_33 (primary, not surveyed)","SavMon_LW_Plot_34 (primary, not surveyed)","SavMon_LW_Plot_35 (primary, not surveyed)","SavMon_LW_Plot_36 (primary, not surveyed)","SavMon_LW_Plot_47 (backup, not surveyed)","SavMon_LW_Plot_48 (backup, not surveyed)","SavMon_LW_Plot_49 (backup, not surveyed)","SavMon_LW_Plot_50 (backup, not surveyed)","SavMon_LW_Plot_51 (backup, not surveyed)"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[37.4809857,37.4815011],"lat":[0.2196114,0.219517]}]],[[{"lng":[37.4663654,37.4667289],"lat":[0.2223891,0.2222717]}]],[[{"lng":[37.4604633,37.4610004],"lat":[0.2267204,0.226577]}]],[[{"lng":[37.4566835,37.4570827],"lat":[0.2255781,0.2255237]}]],[[{"lng":[37.4389493,37.4393258],"lat":[0.2226309,0.2224661]}]],[[{"lng":[37.4370378,37.4374202],"lat":[0.2190527,0.2190106]}]],[[{"lng":[37.4356901,37.4361431],"lat":[0.2256274,0.2254666]}]],[[{"lng":[37.4291504,37.4296194],"lat":[0.2315464,0.2315847]}]],[[{"lng":[37.4258433,37.4263836],"lat":[0.2347411,0.2346862]}]],[[{"lng":[37.4228681,37.4232599],"lat":[0.2349019,0.2347975]}]],[[{"lng":[37.4107934,37.411248],"lat":[0.2333662,0.2333418]}]],[[{"lng":[37.4062615,37.406734],"lat":[0.2341719,0.2340657]}]],[[{"lng":[37.4031872,37.4035069],"lat":[0.2342437,0.2340745]}]],[[{"lng":[37.4000094,37.4004407],"lat":[0.2315323,0.2311615]}]],[[{"lng":[37.3965471,37.3970411],"lat":[0.2340935,0.2341948]}]],[[{"lng":[37.3826638,37.3831058],"lat":[0.232485,0.2325479]}]],[[{"lng":[37.3693426,37.3697609],"lat":[0.2317032,0.2315821]}]],[[{"lng":[37.4965356,37.4969466],"lat":[0.2693565,0.2692712]}]],[[{"lng":[37.4938742,37.4940507],"lat":[0.2191195,0.2192211]}]],[[{"lng":[37.4911897,37.4914037],"lat":[0.2174675,0.2176097]}]],[[{"lng":[37.4880496,37.4884683],"lat":[0.2176529,0.2174781]}]],[[{"lng":[37.4889037,37.4892734],"lat":[0.2730224,0.2728371]}]],[[{"lng":[37.4884265,37.4888286],"lat":[0.2423013,0.2423873]}]],[[{"lng":[37.502578,37.5029741],"lat":[0.2208824,0.2208774]}]],[[{"lng":[37.4988451,37.4993334],"lat":[0.2197688,0.219599]}]],[[{"lng":[37.4962888,37.4967193],"lat":[0.2209465,0.2207899]}]],[[{"lng":[37.4758562,37.4763507],"lat":[0.2221944,0.222044]}]],[[{"lng":[37.4733524,37.4738019],"lat":[0.2231202,0.223502]}]],[[{"lng":[37.3732217,37.3735386],"lat":[0.2298601,0.2296556]}]],[[{"lng":[37.3591777,37.3595746],"lat":[0.2278005,0.2276407]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":["#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#b91c1c","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb"],"weight":4,"opacity":0.5,"fill":false,"fillColor":["#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#2563eb","#b91c1c","#b91c1c","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb","#2563eb","#b91c1c","#2563eb","#2563eb"],"fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,["SavMon_LW_Plot_16: A-B 58 m, midpoint shift 4 m","SavMon_LW_Plot_11: A-B 42 m, midpoint shift 12 m","SavMon_LW_Plot_29: A-B 62 m, midpoint shift 8 m","SavMon_LW_Plot_21: A-B 45 m, midpoint shift 14 m","SavMon_LW_Plot_18: A-B 46 m, midpoint shift 3 m","SavMon_LW_Plot_25: A-B 43 m, midpoint shift 3 m","SavMon_LW_Plot_04: A-B 53 m, midpoint shift 6 m","SavMon_LW_Plot_07: A-B 52 m, midpoint shift 6 m","SavMon_LW_Plot_15: A-B 60 m, midpoint shift 15 m","SavMon_LW_Plot_20: A-B 45 m, midpoint shift 5 m","SavMon_LW_Plot_24: A-B 51 m, midpoint shift 6 m","SavMon_LW_Plot_02: A-B 54 m, midpoint shift 13 m","SavMon_LW_Plot_28: A-B 40 m, midpoint shift 1 m","SavMon_LW_Plot_01: A-B 63 m, midpoint shift 11 m","SavMon_LW_Plot_13: A-B 56 m, midpoint shift 14 m","SavMon_LW_Plot_17: A-B 50 m, midpoint shift 24 m","SavMon_LW_Plot_06: A-B 48 m, midpoint shift 4 m","SavMon_LW_Plot_46: A-B 47 m, midpoint shift 6 m","SavMon_LW_Plot_19: A-B 23 m, midpoint shift 4 m","SavMon_LW_Plot_27: A-B 29 m, midpoint shift 20 m","SavMon_LW_Plot_26: A-B 50 m, midpoint shift 8 m","SavMon_LW_Plot_05: A-B 46 m, midpoint shift 20 m","SavMon_LW_Plot_09: A-B 46 m, midpoint shift 5 m","SavMon_LW_Plot_14: A-B 44 m, midpoint shift 34 m","SavMon_LW_Plot_10: A-B 57 m, midpoint shift 10 m","SavMon_LW_Plot_30: A-B 51 m, midpoint shift 15 m","SavMon_LW_Plot_03: A-B 57 m, midpoint shift 5 m","SavMon_LW_Plot_22: A-B 66 m, midpoint shift 18 m","SavMon_LW_Plot_12: A-B 42 m, midpoint shift 12 m","SavMon_LW_Plot_08: A-B 48 m, midpoint shift 6 m"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[[0.2196134,0.2196214,0.2196333,0.219592,0.219561,0.2195852,0.2195408,0.2195781,0.219577,0.2195871,0.2195415,0.2195423,0.21953,0.2195512,0.219559,0.2195259,0.2195667,0.2195685,0.2196045,0.2195417,0.2255892,0.2256391,0.2256171,0.2256478,0.2255784,0.2256317,0.2255892,0.2255794,0.2255679,0.225622,0.2255534,0.2255124,0.225529,0.2255707,0.2255521,0.2255661,0.2255758,0.2256085,0.2255604,0.2255731,0.2226181,0.2225888,0.2225634,0.2225399,0.2225511,0.2225178,0.2224523,0.222517,0.2224676,0.2224482,0.2224151,0.2224134,0.2224274,0.2225088,0.2224983,0.2225133,0.22254,0.2225616,0.2225157,0.2225911,0.2224588,0.2224181,0.2223647,0.2226705,0.2224417,0.2224135,0.222313,0.2223499,0.222332,0.2223063,0.2223042,0.2222898,0.2222972,0.2222211,0.2223047,0.2223178,0.2223426,0.2224073,0.2223648,0.2223761,0.2267145,0.2267018,0.2267346,0.2266417,0.2266506,0.2265879,0.2266179,0.2266265,0.2265991,0.2265666,0.2265299,0.2265043,0.2265223,0.2266315,0.2266337,0.2266188,0.2265574,0.2266152,0.2266983,0.2266527,0.2191728,0.2190695,0.2190326,0.2190434,0.2191252,0.2191087,0.2190345,0.2190115,0.2190173,0.2189793,0.2190393,0.2189499,0.218891,0.2189338,0.2190109,0.2190505,0.2190065,0.2190354,0.219051,0.2190659,0.2256985,0.2256313,0.2257909,0.2257045,0.2256482,0.2256602,0.2256191,0.2254729,0.2255588,0.2255175,0.2254976,0.2254897,0.2254962,0.2255401,0.2255624,0.2255912,0.2256067,0.2255867,0.2256545,0.2256117,0.2317552,0.2317232,0.2316892,0.2316853,0.2316816,0.2316645,0.2316178,0.2316282,0.2316184,0.2316509,0.2315965,0.2315983,0.2316722,0.2316329,0.2316342,0.23168,0.2316519,0.2316567,0.2317009,0.2316917,0.2348329,0.2347654,0.2348173,0.2347274,0.2347647,0.2347614,0.2347093,0.2347167,0.2346785,0.2346533,0.2346805,0.2347033,0.2347242,0.2346632,0.2347036,0.2346951,0.2347232,0.2346867,0.2347321,0.2347279,0.234949,0.2348765,0.2348631,0.2348132,0.2347953,0.2347278,0.2348092,0.2347743,0.23483,0.2347933,0.2347063,0.2347531,0.2347524,0.2347788,0.2347648,0.2347646,0.2348127,0.234819,0.2348773,0.2348181,0.2334322,0.2333595,0.2334614,0.2334294,0.233351,0.2333847,0.2333421,0.2333897,0.2333939,0.2334011,0.2333024,0.2333604,0.2332995,0.2333606,0.2334175,0.2333607,0.2334119,0.2333984,0.2333753,0.2334432,0.2341825,0.2341689,0.2341937,0.2341403,0.2341414,0.2340943,0.234102,0.2341177,0.2340879,0.2340656,0.23408,0.2341045,0.2341061,0.2340949,0.2340802,0.2340952,0.2341147,0.2341638,0.2341174,0.2341702,0.2343143,0.2342763,0.2342043,0.2342479,0.2341853,0.2341854,0.2342053,0.234181,0.2341495,0.2340839,0.2340441,0.2340717,0.2340941,0.2340806,0.234172,0.2341479,0.2341674,0.2341844,0.2342242,0.2342472,0.2313886,0.23123,0.2313266,0.2313023,0.231238,0.2312303,0.2312768,0.2312303,0.2310683,0.2311781,0.2311772,0.2311925,0.2311526,0.2312303,0.2312156,0.2312795,0.231308,0.2315934,0.2313379,0.2313914,0.2343154,0.2343619,0.2342347,0.2342886,0.2342599,0.2342273,0.2342945,0.23425,0.2341635,0.2341269,0.2341316,0.2341938,0.2341839,0.234185,0.2341978,0.2342857,0.2342677,0.2343004,0.2342969,0.2343028,0.232455,0.2324668,0.2325571,0.232507,0.2324968,0.2325796,0.2325645,0.23257,0.2325728,0.232621,0.2325159,0.2325501,0.2325292,0.232554,0.2324723,0.2325065,0.2324377,0.2324306,0.2324751,0.2324212,0.2316871,0.2317248,0.2315483,0.2316478,0.2315998,0.2316269,0.23181,0.2317772,0.2318513,0.2316333,0.2315903,0.2317044,0.2315677,0.2315825,0.2315794,0.2316191,0.2316896,0.2316271,0.2316784,0.2315807,0.2694493,0.269464,0.2694259,0.2693566,0.2693784,0.269387,0.2693681,0.2693483,0.2693199,0.2693292,0.2692605,0.269323,0.2692887,0.2692662,0.2692795,0.2693451,0.2693356,0.2693258,0.2693851,0.2694264,0.2191503,0.2190988,0.2190227,0.2191235,0.2191658,0.2192631,0.2194225,0.2191984,0.2193625,0.219337,0.2193145,0.2194377,0.2191599,0.2191231,0.2191527,0.2191097,0.219119,0.2191315,0.2190315,0.2190403,0.2175379,0.2175136,0.2176553,0.217596,0.2174449,0.2174916,0.2176444,0.2178771,0.2176031,0.2175539,0.2175344,0.2175073,0.2174599,0.2174933,0.217445,0.2174529,0.217485,0.21743,0.2175237,0.2174447,0.2176955,0.2176645,0.2176417,0.217635,0.217614,0.2175892,0.2176267,0.2175607,0.2175897,0.2175889,0.2174785,0.2174635,0.2175314,0.2176173,0.2175375,0.2175196,0.2175328,0.2175872,0.2175231,0.2176564,0.2732175,0.2732475,0.2732545,0.2732407,0.2731365,0.2731294,0.2731524,0.2731302,0.2731017,0.2730941,0.2730793,0.273117,0.27311,0.2731034,0.2731321,0.2730414,0.2731287,0.2731285,0.2731456,0.2731745,0.2423559,0.2423958,0.2424099,0.2424389,0.2424062,0.2423932,0.242446,0.2424281,0.2424037,0.2422816,0.2423434,0.2423085,0.2423437,0.2422266,0.2423533,0.2423986,0.2423575,0.2423179,0.2424027,0.2423795,0.2207631,0.2208218,0.2207585,0.2208044,0.2207945,0.220808,0.2208506,0.2208787,0.2208633,0.2210638,0.221028,0.220891,0.2208449,0.2207411,0.220806,0.2208009,0.2208135,0.220787,0.2207504,0.2207482,0.219714,0.2197093,0.2197129,0.2197138,0.219693,0.2196419,0.2196327,0.2196723,0.2196746,0.21962,0.2196152,0.219591,0.2196356,0.2196092,0.2196523,0.2196323,0.2195922,0.2196721,0.2196511,0.2196484,0.2210138,0.2209956,0.221001,0.2209527,0.2209915,0.2209236,0.2208775,0.2208753,0.2208755,0.220839,0.2208274,0.2208988,0.2208602,0.2208592,0.2208156,0.2209393,0.2209364,0.2208951,0.2209614,0.2204828,0.2223266,0.2222305,0.222155,0.222026,0.222015,0.2221483,0.2220442,0.2220729,0.2220077,0.2220728,0.2220366,0.2219603,0.2220424,0.2220636,0.22207,0.2220387,0.2220974,0.2220685,0.222084,0.22209,0.2231474,0.223218,0.2232156,0.2232463,0.2233184,0.2232991,0.2231883,0.2234918,0.2234342,0.2233584,0.2235106,0.2234228,0.2233346,0.2234125,0.2233917,0.2232783,0.2231103,0.223171,0.2231098,0.2232201,0.229849,0.2298296,0.2298633,0.2298576,0.22972,0.2297614,0.2298214,0.229803,0.2296811,0.2296191,0.229612,0.2296523,0.2296771,0.2296748,0.229701,0.2297449,0.2298221,0.2297354,0.229826,0.2298353,0.2278191,0.2278158,0.2277893,0.2278215,0.2278572,0.2277905,0.2277571,0.2276413,0.2277364,0.2277084,0.2276437,0.2278424,0.2278873,0.2279477,0.2278666,0.2277209,0.2277106,0.2277858,0.2277486,0.227735],[37.4810664,37.4810609,37.4811243,37.481161,37.481217,37.48135,37.4813202,37.4813206,37.4813717,37.4814846,37.48147,37.4813797,37.4813736,37.4813543,37.4812145,37.4812171,37.4811882,37.48117,37.4810893,37.4810221,37.4567434,37.456814,37.4568735,37.4569092,37.4569336,37.4569875,37.4570585,37.457117,37.4571049,37.4571945,37.4571277,37.4571154,37.4570685,37.4569901,37.456912,37.4569004,37.4568484,37.4568223,37.4567484,37.4567575,37.438936,37.438985,37.4389929,37.4390628,37.4391239,37.439159,37.4392416,37.4392372,37.4392577,37.4393593,37.4393866,37.4392698,37.4392596,37.4391954,37.4391878,37.4391133,37.4390333,37.4389783,37.4389515,37.4388781,37.4663725,37.4663807,37.466464,37.4664381,37.4666096,37.4666077,37.4666207,37.4666474,37.466685,37.4667361,37.4667261,37.4667774,37.4666929,37.4666448,37.4665829,37.4665487,37.466509,37.4664574,37.4663512,37.4663679,37.4604974,37.4605889,37.4606793,37.4607245,37.4606886,37.460756,37.4607637,37.4608939,37.4609401,37.4609761,37.460967,37.4609367,37.460817,37.4608847,37.4607606,37.4607583,37.4604924,37.4606754,37.4605692,37.4605644,37.4369277,37.4370548,37.4371154,37.4371115,37.4371851,37.4371898,37.4372718,37.4373261,37.4373725,37.4373953,37.4373352,37.4373754,37.4372986,37.4372804,37.4371706,37.4371664,37.4371249,37.4370914,37.4370487,37.4369998,37.4355888,37.4357806,37.4357723,37.4357297,37.435943,37.4359003,37.4360609,37.4360018,37.4360854,37.4360966,37.4360936,37.4360953,37.4359908,37.4359378,37.4359104,37.4359319,37.4358892,37.4357879,37.4357224,37.435715,37.4293277,37.4292924,37.4293195,37.4293785,37.4294576,37.4294798,37.4295112,37.4295266,37.4296033,37.4296908,37.4296825,37.429641,37.4295596,37.4296034,37.4294887,37.4294512,37.4294245,37.4293684,37.4293341,37.4292926,37.4260614,37.426104,37.426228,37.4262519,37.4262451,37.4262247,37.4263775,37.426395,37.4264227,37.426482,37.4265077,37.4264477,37.4264147,37.4263385,37.426306,37.4262061,37.4261729,37.4261681,37.4260613,37.4260748,37.4228568,37.4228506,37.4229297,37.4230409,37.4230083,37.4230354,37.4231365,37.4232101,37.4232457,37.4232451,37.4232376,37.4232204,37.4231559,37.4231549,37.4230835,37.4230255,37.4229989,37.4229133,37.4229139,37.4228848,37.4107426,37.410758,37.410908,37.4109247,37.4108989,37.4109965,37.4110346,37.4110977,37.4110924,37.4112111,37.4111907,37.4111042,37.4111118,37.4109984,37.4110345,37.4109436,37.4108286,37.410795,37.4107978,37.410784,37.4062831,37.4063449,37.4064144,37.4064359,37.4064557,37.4064451,37.4065706,37.4065852,37.4066522,37.4067416,37.4066507,37.4065906,37.4066419,37.4065334,37.4065335,37.4065106,37.4064387,37.4063713,37.406364,37.4062427,37.4031283,37.4031492,37.4031921,37.403354,37.4033195,37.4033142,37.4033598,37.4033767,37.4035424,37.4034806,37.4034697,37.4034325,37.4033875,37.4033706,37.403301,37.4032779,37.4032341,37.4032137,37.4031704,37.4031225,37.4000291,37.4000831,37.4001195,37.4001653,37.4002053,37.4002503,37.4002793,37.4003741,37.4003949,37.4003932,37.4003258,37.4003164,37.4003028,37.4002503,37.4002365,37.400157,37.4000918,37.3996187,37.4000745,37.4000562,37.3967112,37.3967147,37.3966461,37.3967694,37.3968935,37.3968799,37.3969652,37.397016,37.3970027,37.3970812,37.3970425,37.3970249,37.3969686,37.3969298,37.3969328,37.3968446,37.396823,37.3967856,37.3967306,37.3966749,37.3826122,37.3826755,37.3827281,37.3828013,37.3828037,37.3828719,37.3828953,37.382906,37.3829587,37.3830573,37.3830419,37.3830231,37.3829273,37.3829642,37.3829084,37.3828168,37.3827896,37.3827347,37.3827351,37.3826883,37.3692514,37.3693679,37.3694143,37.3693972,37.3693458,37.3695274,37.3694748,37.3695927,37.3695835,37.3697077,37.3697043,37.3696793,37.369641,37.3696254,37.3695333,37.3694996,37.3694178,37.3694214,37.3693057,37.369312,37.496548,37.4966421,37.4966089,37.496738,37.4967358,37.496764,37.4968192,37.4968516,37.4969089,37.496939,37.4969108,37.4969305,37.4968519,37.4968086,37.4967739,37.4967175,37.4966861,37.4966384,37.4965811,37.496563,37.4937137,37.4938067,37.4935944,37.4939166,37.4940097,37.4940499,37.4939044,37.4939695,37.4939432,37.4939764,37.4939604,37.4939704,37.4940308,37.4940351,37.4940068,37.4939418,37.4939084,37.4938337,37.4938304,37.4937936,37.4912399,37.4912495,37.4912898,37.491351,37.4914624,37.4914706,37.4914815,37.4914433,37.4916279,37.4916368,37.4916232,37.4916197,37.4915365,37.4914816,37.4914316,37.4913792,37.4913859,37.4913304,37.4912343,37.4912158,37.4881025,37.4880913,37.488138,37.4882857,37.4882571,37.4883292,37.4883688,37.4884217,37.4884185,37.48849,37.4885021,37.4884251,37.4883718,37.4882617,37.4883234,37.4882284,37.4881508,37.4881098,37.488059,37.4879311,37.4888572,37.4888912,37.4889579,37.4889537,37.4890474,37.4890985,37.4890892,37.489196,37.4892196,37.4893055,37.4892523,37.4892107,37.4891701,37.4891317,37.489041,37.4889935,37.4889676,37.4889654,37.4888921,37.488812,37.4884551,37.4885179,37.4884956,37.4886168,37.4886605,37.4887025,37.4887137,37.4887388,37.4888652,37.4889928,37.488879,37.4888499,37.4887779,37.4886321,37.4886833,37.4885995,37.4885903,37.4885095,37.4885517,37.4884426,37.5025627,37.5026179,37.5026486,37.5025987,37.502619,37.5027737,37.5027632,37.5028372,37.5028978,37.502886,37.5028863,37.5028851,37.5028918,37.5028044,37.5027706,37.5027481,37.5027333,37.5026562,37.5026286,37.5025056,37.4988958,37.4989399,37.4989992,37.4990027,37.4991896,37.4991281,37.4991576,37.4991868,37.4992198,37.4992906,37.4992917,37.4992148,37.4992509,37.4991505,37.4990845,37.4990632,37.4989911,37.4989791,37.4989182,37.4988998,37.496301,37.4963601,37.4964258,37.4964587,37.496456,37.4965471,37.4965499,37.4966528,37.4966962,37.4966687,37.496798,37.4967362,37.4965818,37.4965655,37.4965814,37.4964751,37.4965246,37.4965141,37.4964006,37.4964511,37.4759082,37.4759525,37.4759746,37.4760467,37.4760008,37.476153,37.4762036,37.4762013,37.4762738,37.4762546,37.4762767,37.4761861,37.476227,37.4762254,37.4761147,37.4760784,37.4760593,37.4759653,37.4759181,37.4759228,37.4733313,37.4734446,37.473453,37.4734577,37.4735723,37.47353,37.4735646,37.4736078,37.4736004,37.4737304,37.4737656,37.4736964,37.4737039,37.4737087,37.4736146,37.4735693,37.4735758,37.4734495,37.473337,37.4734258,37.3733051,37.3732247,37.3733053,37.3733475,37.3733881,37.3733779,37.3735306,37.3734447,37.3735071,37.3735393,37.3735056,37.3734548,37.3734565,37.3733964,37.3733657,37.3733356,37.3733571,37.3732818,37.3731913,37.3729972,37.3591621,37.3591799,37.3592114,37.3593946,37.3593425,37.3594134,37.3595027,37.359471,37.3594815,37.35962,37.3596261,37.3595636,37.3595997,37.3594724,37.3595773,37.3594123,37.3592732,37.3592278,37.359242,37.3590945],3,null,null,{"interactive":true,"className":"","stroke":false,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":["#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#b91c1c","#b91c1c","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#b91c1c","#b91c1c","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#16a34a","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a","#b91c1c","#b91c1c","#b91c1c","#b91c1c","#16a34a","#16a34a","#16a34a","#16a34a","#16a34a"],"fillOpacity":0.8},null,null,null,null,["SavMon_LW_Plot_16 Q1: 5 taxa, 2 m off line","SavMon_LW_Plot_16 Q2: 5 taxa, 3 m off line","SavMon_LW_Plot_16 Q3: 6 taxa, 5 m off line","SavMon_LW_Plot_16 Q4: 6 taxa, 1 m off line","SavMon_LW_Plot_16 Q5: 6 taxa, 1 m off line","SavMon_LW_Plot_16 Q6: 4 taxa, 4 m off line","SavMon_LW_Plot_16 Q7: 5 taxa, 1 m off line","SavMon_LW_Plot_16 Q8: 3 taxa, 3 m off line","SavMon_LW_Plot_16 Q9: 4 taxa, 4 m off line","SavMon_LW_Plot_16 Q10: 4 taxa, 7 m off line","SavMon_LW_Plot_16 Q11: 5 taxa, 2 m off line","SavMon_LW_Plot_16 Q12: 4 taxa, 0 m off line","SavMon_LW_Plot_16 Q13: 3 taxa, 1 m off line","SavMon_LW_Plot_16 Q14: 6 taxa, 1 m off line","SavMon_LW_Plot_16 Q15: 1 taxa, 1 m off line","SavMon_LW_Plot_16 Q16: 3 taxa, 5 m off line","SavMon_LW_Plot_16 Q17: 5 taxa, 1 m off line","SavMon_LW_Plot_16 Q18: 4 taxa, 1 m off line","SavMon_LW_Plot_16 Q19: 5 taxa, 1 m off line","SavMon_LW_Plot_16 Q20: 6 taxa, 7 m off line","SavMon_LW_Plot_21 Q1: 5 taxa, 2 m off line","SavMon_LW_Plot_21 Q2: 4 taxa, 9 m off line","SavMon_LW_Plot_21 Q3: 6 taxa, 7 m off line","SavMon_LW_Plot_21 Q4: 4 taxa, 11 m off line","SavMon_LW_Plot_21 Q5: 4 taxa, 4 m off line","SavMon_LW_Plot_21 Q6: 6 taxa, 10 m off line","SavMon_LW_Plot_21 Q7: 3 taxa, 7 m off line","SavMon_LW_Plot_21 Q8: 4 taxa, 7 m off line","SavMon_LW_Plot_21 Q9: 6 taxa, 5 m off line","SavMon_LW_Plot_21 Q10: 7 taxa, 17 m off line","SavMon_LW_Plot_21 Q11: 5 taxa, 6 m off line","SavMon_LW_Plot_21 Q12: 6 taxa, 4 m off line","SavMon_LW_Plot_21 Q13: 5 taxa, 0 m off line","SavMon_LW_Plot_21 Q14: 6 taxa, 4 m off line","SavMon_LW_Plot_21 Q15: 5 taxa, 1 m off line","SavMon_LW_Plot_21 Q16: 6 taxa, 2 m off line","SavMon_LW_Plot_21 Q17: 4 taxa, 2 m off line","SavMon_LW_Plot_21 Q18: 3 taxa, 5 m off line","SavMon_LW_Plot_21 Q19: 1 taxa, 1 m off line","SavMon_LW_Plot_21 Q20: 3 taxa, 1 m off line","SavMon_LW_Plot_18 Q1: 3 taxa, 2 m off line","SavMon_LW_Plot_18 Q2: 6 taxa, 3 m off line","SavMon_LW_Plot_18 Q3: 6 taxa, 5 m off line","SavMon_LW_Plot_18 Q4: 4 taxa, 4 m off line","SavMon_LW_Plot_18 Q5: 2 taxa, 0 m off line","SavMon_LW_Plot_18 Q6: 4 taxa, 2 m off line","SavMon_LW_Plot_18 Q7: 4 taxa, 5 m off line","SavMon_LW_Plot_18 Q8: 2 taxa, 1 m off line","SavMon_LW_Plot_18 Q9: 3 taxa, 3 m off line","SavMon_LW_Plot_18 Q10: 2 taxa, 4 m off line","SavMon_LW_Plot_18 Q11: 4 taxa, 9 m off line","SavMon_LW_Plot_18 Q12: 3 taxa, 8 m off line","SavMon_LW_Plot_18 Q13: 1 taxa, 7 m off line","SavMon_LW_Plot_18 Q14: 2 taxa, 1 m off line","SavMon_LW_Plot_18 Q15: 3 taxa, 3 m off line","SavMon_LW_Plot_18 Q16: 3 taxa, 5 m off line","SavMon_LW_Plot_18 Q17: 7 taxa, 6 m off line","SavMon_LW_Plot_18 Q18: 5 taxa, 6 m off line","SavMon_LW_Plot_18 Q19: 4 taxa, 12 m off line","SavMon_LW_Plot_18 Q20: 4 taxa, 9 m off line","SavMon_LW_Plot_11 Q1: 3 taxa, 8 m off line","SavMon_LW_Plot_11 Q2: 4 taxa, 4 m off line","SavMon_LW_Plot_11 Q3: 4 taxa, 1 m off line","SavMon_LW_Plot_11 Q4: 3 taxa, 32 m off line","SavMon_LW_Plot_11 Q5: 3 taxa, 14 m off line","SavMon_LW_Plot_11 Q6: 2 taxa, 11 m off line","SavMon_LW_Plot_11 Q7: 5 taxa, 1 m off line","SavMon_LW_Plot_11 Q8: 4 taxa, 5 m off line","SavMon_LW_Plot_11 Q9: 4 taxa, 5 m off line","SavMon_LW_Plot_11 Q10: 3 taxa, 4 m off line","SavMon_LW_Plot_11 Q11: 5 taxa, 3 m off line","SavMon_LW_Plot_11 Q12: 3 taxa, 6 m off line","SavMon_LW_Plot_11 Q13: 4 taxa, 1 m off line","SavMon_LW_Plot_11 Q14: 3 taxa, 8 m off line","SavMon_LW_Plot_11 Q15: 6 taxa, 1 m off line","SavMon_LW_Plot_11 Q16: 1 taxa, 1 m off line","SavMon_LW_Plot_11 Q17: 3 taxa, 0 m off line","SavMon_LW_Plot_11 Q18: 4 taxa, 5 m off line","SavMon_LW_Plot_11 Q19: 4 taxa, 3 m off line","SavMon_LW_Plot_11 Q20: 4 taxa, 1 m off line","SavMon_LW_Plot_29 Q1: 4 taxa, 0 m off line","SavMon_LW_Plot_29 Q2: 3 taxa, 2 m off line","SavMon_LW_Plot_29 Q3: 3 taxa, 8 m off line","SavMon_LW_Plot_29 Q4: 4 taxa, 1 m off line","SavMon_LW_Plot_29 Q5: 2 taxa, 1 m off line","SavMon_LW_Plot_29 Q6: 4 taxa, 6 m off line","SavMon_LW_Plot_29 Q7: 7 taxa, 2 m off line","SavMon_LW_Plot_29 Q8: 5 taxa, 2 m off line","SavMon_LW_Plot_29 Q9: 5 taxa, 1 m off line","SavMon_LW_Plot_29 Q10: 4 taxa, 2 m off line","SavMon_LW_Plot_29 Q11: 2 taxa, 6 m off line","SavMon_LW_Plot_29 Q12: 6 taxa, 10 m off line","SavMon_LW_Plot_29 Q13: 2 taxa, 11 m off line","SavMon_LW_Plot_29 Q14: 6 taxa, 3 m off line","SavMon_LW_Plot_29 Q15: 3 taxa, 1 m off line","SavMon_LW_Plot_29 Q16: 6 taxa, 2 m off line","SavMon_LW_Plot_29 Q17: 5 taxa, 17 m off line","SavMon_LW_Plot_29 Q18: 5 taxa, 5 m off line","SavMon_LW_Plot_29 Q19: 4 taxa, 1 m off line","SavMon_LW_Plot_29 Q20: 5 taxa, 4 m off line","SavMon_LW_Plot_25 Q1: 4 taxa, 18 m off line","SavMon_LW_Plot_25 Q2: 5 taxa, 2 m off line","SavMon_LW_Plot_25 Q3: 5 taxa, 1 m off line","SavMon_LW_Plot_25 Q4: 3 taxa, 0 m off line","SavMon_LW_Plot_25 Q5: 6 taxa, 10 m off line","SavMon_LW_Plot_25 Q6: 4 taxa, 8 m off line","SavMon_LW_Plot_25 Q7: 1 taxa, 1 m off line","SavMon_LW_Plot_25 Q8: 5 taxa, 1 m off line","SavMon_LW_Plot_25 Q9: 6 taxa, 0 m off line","SavMon_LW_Plot_25 Q10: 4 taxa, 4 m off line","SavMon_LW_Plot_25 Q11: 4 taxa, 2 m off line","SavMon_LW_Plot_25 Q12: 2 taxa, 7 m off line","SavMon_LW_Plot_25 Q13: 2 taxa, 15 m off line","SavMon_LW_Plot_25 Q14: 5 taxa, 10 m off line","SavMon_LW_Plot_25 Q15: 4 taxa, 3 m off line","SavMon_LW_Plot_25 Q16: 4 taxa, 1 m off line","SavMon_LW_Plot_25 Q17: 6 taxa, 4 m off line","SavMon_LW_Plot_25 Q18: 5 taxa, 1 m off line","SavMon_LW_Plot_25 Q19: 7 taxa, 0 m off line","SavMon_LW_Plot_25 Q20: 2 taxa, 4 m off line","SavMon_LW_Plot_04 Q1: 4 taxa, 14 m off line","SavMon_LW_Plot_04 Q2: 1 taxa, 4 m off line","SavMon_LW_Plot_04 Q3: 3 taxa, 20 m off line","SavMon_LW_Plot_04 Q4: 2 taxa, 10 m off line","SavMon_LW_Plot_04 Q5: 2 taxa, 12 m off line","SavMon_LW_Plot_04 Q6: 2 taxa, 11 m off line","SavMon_LW_Plot_04 Q7: 4 taxa, 13 m off line","SavMon_LW_Plot_04 Q8: 3 taxa, 5 m off line","SavMon_LW_Plot_04 Q9: 4 taxa, 8 m off line","SavMon_LW_Plot_04 Q10: 2 taxa, 4 m off line","SavMon_LW_Plot_04 Q11: 3 taxa, 1 m off line","SavMon_LW_Plot_04 Q12: 2 taxa, 1 m off line","SavMon_LW_Plot_04 Q13: 4 taxa, 3 m off line","SavMon_LW_Plot_04 Q14: 2 taxa, 0 m off line","SavMon_LW_Plot_04 Q15: 3 taxa, 1 m off line","SavMon_LW_Plot_04 Q16: 5 taxa, 5 m off line","SavMon_LW_Plot_04 Q17: 0 taxa, 5 m off line","SavMon_LW_Plot_04 Q18: 2 taxa, 1 m off line","SavMon_LW_Plot_04 Q19: 3 taxa, 4 m off line","SavMon_LW_Plot_04 Q20: 1 taxa, 1 m off line","SavMon_LW_Plot_07 Q1: 5 taxa, 22 m off line","SavMon_LW_Plot_07 Q2: 6 taxa, 18 m off line","SavMon_LW_Plot_07 Q3: 4 taxa, 14 m off line","SavMon_LW_Plot_07 Q4: 4 taxa, 13 m off line","SavMon_LW_Plot_07 Q5: 5 taxa, 12 m off line","SavMon_LW_Plot_07 Q6: 3 taxa, 10 m off line","SavMon_LW_Plot_07 Q7: 3 taxa, 5 m off line","SavMon_LW_Plot_07 Q8: 2 taxa, 6 m off line","SavMon_LW_Plot_07 Q9: 5 taxa, 4 m off line","SavMon_LW_Plot_07 Q10: 4 taxa, 11 m off line","SavMon_LW_Plot_07 Q11: 5 taxa, 7 m off line","SavMon_LW_Plot_07 Q12: 3 taxa, 3 m off line","SavMon_LW_Plot_07 Q13: 3 taxa, 10 m off line","SavMon_LW_Plot_07 Q14: 4 taxa, 5 m off line","SavMon_LW_Plot_07 Q15: 3 taxa, 7 m off line","SavMon_LW_Plot_07 Q16: 4 taxa, 12 m off line","SavMon_LW_Plot_07 Q17: 3 taxa, 9 m off line","SavMon_LW_Plot_07 Q18: 3 taxa, 10 m off line","SavMon_LW_Plot_07 Q19: 4 taxa, 15 m off line","SavMon_LW_Plot_07 Q20: 2 taxa, 15 m off line","SavMon_LW_Plot_15 Q1: 1 taxa, 13 m off line","SavMon_LW_Plot_15 Q2: 1 taxa, 6 m off line","SavMon_LW_Plot_15 Q3: 5 taxa, 13 m off line","SavMon_LW_Plot_15 Q4: 1 taxa, 3 m off line","SavMon_LW_Plot_15 Q5: 2 taxa, 7 m off line","SavMon_LW_Plot_15 Q6: 3 taxa, 7 m off line","SavMon_LW_Plot_15 Q7: 1 taxa, 2 m off line","SavMon_LW_Plot_15 Q8: 2 taxa, 4 m off line","SavMon_LW_Plot_15 Q9: 1 taxa, 4 m off line","SavMon_LW_Plot_15 Q10: 3 taxa, 12 m off line","SavMon_LW_Plot_15 Q11: 3 taxa, 14 m off line","SavMon_LW_Plot_15 Q12: 3 taxa, 7 m off line","SavMon_LW_Plot_15 Q13: 1 taxa, 5 m off line","SavMon_LW_Plot_15 Q14: 1 taxa, 3 m off line","SavMon_LW_Plot_15 Q15: 3 taxa, 1 m off line","SavMon_LW_Plot_15 Q16: 3 taxa, 1 m off line","SavMon_LW_Plot_15 Q17: 1 taxa, 2 m off line","SavMon_LW_Plot_15 Q18: 1 taxa, 2 m off line","SavMon_LW_Plot_15 Q19: 2 taxa, 1 m off line","SavMon_LW_Plot_15 Q20: 2 taxa, 1 m off line","SavMon_LW_Plot_20 Q1: 2 taxa, 5 m off line","SavMon_LW_Plot_20 Q2: 4 taxa, 3 m off line","SavMon_LW_Plot_20 Q3: 2 taxa, 2 m off line","SavMon_LW_Plot_20 Q4: 1 taxa, 5 m off line","SavMon_LW_Plot_20 Q5: 2 taxa, 7 m off line","SavMon_LW_Plot_20 Q6: 3 taxa, 14 m off line","SavMon_LW_Plot_20 Q7: 3 taxa, 2 m off line","SavMon_LW_Plot_20 Q8: 2 taxa, 4 m off line","SavMon_LW_Plot_20 Q9: 4 taxa, 3 m off line","SavMon_LW_Plot_20 Q10: 2 taxa, 1 m off line","SavMon_LW_Plot_20 Q11: 3 taxa, 10 m off line","SavMon_LW_Plot_20 Q12: 2 taxa, 6 m off line","SavMon_LW_Plot_20 Q13: 5 taxa, 8 m off line","SavMon_LW_Plot_20 Q14: 3 taxa, 5 m off line","SavMon_LW_Plot_20 Q15: 3 taxa, 9 m off line","SavMon_LW_Plot_20 Q16: 2 taxa, 10 m off line","SavMon_LW_Plot_20 Q17: 1 taxa, 6 m off line","SavMon_LW_Plot_20 Q18: 5 taxa, 8 m off line","SavMon_LW_Plot_20 Q19: 2 taxa, 1 m off line","SavMon_LW_Plot_20 Q20: 5 taxa, 9 m off line","SavMon_LW_Plot_24 Q1: 2 taxa, 9 m off line","SavMon_LW_Plot_24 Q2: 4 taxa, 4 m off line","SavMon_LW_Plot_24 Q3: 1 taxa, 11 m off line","SavMon_LW_Plot_24 Q4: 2 taxa, 8 m off line","SavMon_LW_Plot_24 Q5: 1 taxa, 1 m off line","SavMon_LW_Plot_24 Q6: 2 taxa, 3 m off line","SavMon_LW_Plot_24 Q7: 2 taxa, 1 m off line","SavMon_LW_Plot_24 Q8: 2 taxa, 4 m off line","SavMon_LW_Plot_24 Q9: 2 taxa, 5 m off line","SavMon_LW_Plot_24 Q10: 1 taxa, 6 m off line","SavMon_LW_Plot_24 Q11: 1 taxa, 5 m off line","SavMon_LW_Plot_24 Q12: 2 taxa, 1 m off line","SavMon_LW_Plot_24 Q13: 3 taxa, 6 m off line","SavMon_LW_Plot_24 Q14: 1 taxa, 1 m off line","SavMon_LW_Plot_24 Q15: 3 taxa, 7 m off line","SavMon_LW_Plot_24 Q16: 3 taxa, 0 m off line","SavMon_LW_Plot_24 Q17: 3 taxa, 5 m off line","SavMon_LW_Plot_24 Q18: 1 taxa, 4 m off line","SavMon_LW_Plot_24 Q19: 1 taxa, 1 m off line","SavMon_LW_Plot_24 Q20: 1 taxa, 9 m off line","SavMon_LW_Plot_02 Q1: 1 taxa, 2 m off line","SavMon_LW_Plot_02 Q2: 2 taxa, 2 m off line","SavMon_LW_Plot_02 Q3: 4 taxa, 6 m off line","SavMon_LW_Plot_02 Q4: 4 taxa, 1 m off line","SavMon_LW_Plot_02 Q5: 2 taxa, 1 m off line","SavMon_LW_Plot_02 Q6: 3 taxa, 4 m off line","SavMon_LW_Plot_02 Q7: 2 taxa, 0 m off line","SavMon_LW_Plot_02 Q8: 3 taxa, 2 m off line","SavMon_LW_Plot_02 Q9: 2 taxa, 0 m off line","SavMon_LW_Plot_02 Q10: 5 taxa, 1 m off line","SavMon_LW_Plot_02 Q11: 1 taxa, 0 m off line","SavMon_LW_Plot_02 Q12: 1 taxa, 1 m off line","SavMon_LW_Plot_02 Q13: 3 taxa, 2 m off line","SavMon_LW_Plot_02 Q14: 4 taxa, 2 m off line","SavMon_LW_Plot_02 Q15: 2 taxa, 3 m off line","SavMon_LW_Plot_02 Q16: 3 taxa, 2 m off line","SavMon_LW_Plot_02 Q17: 3 taxa, 2 m off line","SavMon_LW_Plot_02 Q18: 3 taxa, 2 m off line","SavMon_LW_Plot_02 Q19: 0 taxa, 3 m off line","SavMon_LW_Plot_02 Q20: 2 taxa, 2 m off line","SavMon_LW_Plot_28 Q1: 2 taxa, 10 m off line","SavMon_LW_Plot_28 Q2: 5 taxa, 6 m off line","SavMon_LW_Plot_28 Q3: 4 taxa, 4 m off line","SavMon_LW_Plot_28 Q4: 3 taxa, 9 m off line","SavMon_LW_Plot_28 Q5: 4 taxa, 1 m off line","SavMon_LW_Plot_28 Q6: 5 taxa, 1 m off line","SavMon_LW_Plot_28 Q7: 1 taxa, 5 m off line","SavMon_LW_Plot_28 Q8: 3 taxa, 4 m off line","SavMon_LW_Plot_28 Q9: 4 taxa, 9 m off line","SavMon_LW_Plot_28 Q10: 2 taxa, 0 m off line","SavMon_LW_Plot_28 Q11: 3 taxa, 5 m off line","SavMon_LW_Plot_28 Q12: 3 taxa, 4 m off line","SavMon_LW_Plot_28 Q13: 2 taxa, 4 m off line","SavMon_LW_Plot_28 Q14: 6 taxa, 6 m off line","SavMon_LW_Plot_28 Q15: 3 taxa, 1 m off line","SavMon_LW_Plot_28 Q16: 5 taxa, 5 m off line","SavMon_LW_Plot_28 Q17: 0 taxa, 5 m off line","SavMon_LW_Plot_28 Q18: 4 taxa, 4 m off line","SavMon_LW_Plot_28 Q19: 1 taxa, 3 m off line","SavMon_LW_Plot_28 Q20: 2 taxa, 7 m off line","SavMon_LW_Plot_01 Q1: 9 taxa, 11 m off line","SavMon_LW_Plot_01 Q2: 6 taxa, 20 m off line","SavMon_LW_Plot_01 Q3: 6 taxa, 9 m off line","SavMon_LW_Plot_01 Q4: 3 taxa, 8 m off line","SavMon_LW_Plot_01 Q5: 3 taxa, 11 m off line","SavMon_LW_Plot_01 Q6: 5 taxa, 8 m off line","SavMon_LW_Plot_01 Q7: 2 taxa, 2 m off line","SavMon_LW_Plot_01 Q8: 4 taxa, 1 m off line","SavMon_LW_Plot_01 Q9: 4 taxa, 12 m off line","SavMon_LW_Plot_01 Q10: 2 taxa, 2 m off line","SavMon_LW_Plot_01 Q11: 5 taxa, 7 m off line","SavMon_LW_Plot_01 Q12: 5 taxa, 6 m off line","SavMon_LW_Plot_01 Q13: 1 taxa, 11 m off line","SavMon_LW_Plot_01 Q14: 3 taxa, 8 m off line","SavMon_LW_Plot_01 Q15: 3 taxa, 10 m off line","SavMon_LW_Plot_01 Q16: 6 taxa, 11 m off line","SavMon_LW_Plot_01 Q17: 6 taxa, 13 m off line","SavMon_LW_Plot_01 Q18: 5 taxa, 44 m off line","SavMon_LW_Plot_01 Q19: 5 taxa, 12 m off line","SavMon_LW_Plot_01 Q20: 6 taxa, 8 m off line","SavMon_LW_Plot_13 Q1: 3 taxa, 21 m off line","SavMon_LW_Plot_13 Q2: 4 taxa, 25 m off line","SavMon_LW_Plot_13 Q3: 3 taxa, 13 m off line","SavMon_LW_Plot_13 Q4: 1 taxa, 16 m off line","SavMon_LW_Plot_13 Q5: 3 taxa, 10 m off line","SavMon_LW_Plot_13 Q6: 4 taxa, 7 m off line","SavMon_LW_Plot_13 Q7: 3 taxa, 13 m off line","SavMon_LW_Plot_13 Q8: 3 taxa, 7 m off line","SavMon_LW_Plot_13 Q9: 3 taxa, 3 m off line","SavMon_LW_Plot_13 Q10: 6 taxa, 9 m off line","SavMon_LW_Plot_13 Q11: 3 taxa, 7 m off line","SavMon_LW_Plot_13 Q12: 2 taxa, 0 m off line","SavMon_LW_Plot_13 Q13: 4 taxa, 0 m off line","SavMon_LW_Plot_13 Q14: 4 taxa, 1 m off line","SavMon_LW_Plot_13 Q15: 4 taxa, 3 m off line","SavMon_LW_Plot_13 Q16: 3 taxa, 14 m off line","SavMon_LW_Plot_13 Q17: 4 taxa, 13 m off line","SavMon_LW_Plot_13 Q18: 4 taxa, 17 m off line","SavMon_LW_Plot_13 Q19: 3 taxa, 18 m off line","SavMon_LW_Plot_13 Q20: 2 taxa, 20 m off line","SavMon_LW_Plot_17 Q1: 4 taxa, 7 m off line","SavMon_LW_Plot_17 Q2: 5 taxa, 2 m off line","SavMon_LW_Plot_17 Q3: 3 taxa, 7 m off line","SavMon_LW_Plot_17 Q4: 7 taxa, 0 m off line","SavMon_LW_Plot_17 Q5: 4 taxa, 1 m off line","SavMon_LW_Plot_17 Q6: 1 taxa, 7 m off line","SavMon_LW_Plot_17 Q7: 4 taxa, 5 m off line","SavMon_LW_Plot_17 Q8: 6 taxa, 6 m off line","SavMon_LW_Plot_17 Q9: 5 taxa, 5 m off line","SavMon_LW_Plot_17 Q10: 3 taxa, 9 m off line","SavMon_LW_Plot_17 Q11: 5 taxa, 3 m off line","SavMon_LW_Plot_17 Q12: 3 taxa, 2 m off line","SavMon_LW_Plot_17 Q13: 4 taxa, 1 m off line","SavMon_LW_Plot_17 Q14: 5 taxa, 3 m off line","SavMon_LW_Plot_17 Q15: 1 taxa, 5 m off line","SavMon_LW_Plot_17 Q16: 4 taxa, 0 m off line","SavMon_LW_Plot_17 Q17: 4 taxa, 7 m off line","SavMon_LW_Plot_17 Q18: 2 taxa, 7 m off line","SavMon_LW_Plot_17 Q19: 2 taxa, 2 m off line","SavMon_LW_Plot_17 Q20: 4 taxa, 7 m off line","SavMon_LW_Plot_06 Q1: 5 taxa, 10 m off line","SavMon_LW_Plot_06 Q2: 3 taxa, 3 m off line","SavMon_LW_Plot_06 Q3: 6 taxa, 14 m off line","SavMon_LW_Plot_06 Q4: 4 taxa, 4 m off line","SavMon_LW_Plot_06 Q5: 4 taxa, 11 m off line","SavMon_LW_Plot_06 Q6: 2 taxa, 2 m off line","SavMon_LW_Plot_06 Q7: 5 taxa, 15 m off line","SavMon_LW_Plot_06 Q8: 4 taxa, 16 m off line","SavMon_LW_Plot_06 Q9: 3 taxa, 23 m off line","SavMon_LW_Plot_06 Q10: 6 taxa, 4 m off line","SavMon_LW_Plot_06 Q11: 5 taxa, 1 m off line","SavMon_LW_Plot_06 Q12: 4 taxa, 11 m off line","SavMon_LW_Plot_06 Q13: 3 taxa, 5 m off line","SavMon_LW_Plot_06 Q14: 4 taxa, 4 m off line","SavMon_LW_Plot_06 Q15: 4 taxa, 7 m off line","SavMon_LW_Plot_06 Q16: 2 taxa, 4 m off line","SavMon_LW_Plot_06 Q17: 4 taxa, 1 m off line","SavMon_LW_Plot_06 Q18: 4 taxa, 6 m off line","SavMon_LW_Plot_06 Q19: 5 taxa, 5 m off line","SavMon_LW_Plot_06 Q20: 2 taxa, 14 m off line","SavMon_LW_Plot_46 Q1: 2 taxa, 10 m off line","SavMon_LW_Plot_46 Q2: 3 taxa, 14 m off line","SavMon_LW_Plot_46 Q3: 2 taxa, 9 m off line","SavMon_LW_Plot_46 Q4: 2 taxa, 5 m off line","SavMon_LW_Plot_46 Q5: 1 taxa, 7 m off line","SavMon_LW_Plot_46 Q6: 2 taxa, 8 m off line","SavMon_LW_Plot_46 Q7: 1 taxa, 8 m off line","SavMon_LW_Plot_46 Q8: 1 taxa, 6 m off line","SavMon_LW_Plot_46 Q9: 4 taxa, 4 m off line","SavMon_LW_Plot_46 Q10: 3 taxa, 6 m off line","SavMon_LW_Plot_46 Q11: 3 taxa, 2 m off line","SavMon_LW_Plot_46 Q12: 2 taxa, 5 m off line","SavMon_LW_Plot_46 Q13: 1 taxa, 0 m off line","SavMon_LW_Plot_46 Q14: 1 taxa, 4 m off line","SavMon_LW_Plot_46 Q15: 1 taxa, 3 m off line","SavMon_LW_Plot_46 Q16: 1 taxa, 3 m off line","SavMon_LW_Plot_46 Q17: 3 taxa, 1 m off line","SavMon_LW_Plot_46 Q18: 3 taxa, 1 m off line","SavMon_LW_Plot_46 Q19: 3 taxa, 4 m off line","SavMon_LW_Plot_46 Q20: 2 taxa, 8 m off line","SavMon_LW_Plot_19 Q1: 3 taxa, 18 m off line","SavMon_LW_Plot_19 Q2: 4 taxa, 8 m off line","SavMon_LW_Plot_19 Q3: 3 taxa, 33 m off line","SavMon_LW_Plot_19 Q4: 4 taxa, 2 m off line","SavMon_LW_Plot_19 Q5: 3 taxa, 3 m off line","SavMon_LW_Plot_19 Q6: 4 taxa, 5 m off line","SavMon_LW_Plot_19 Q7: 2 taxa, 28 m off line","SavMon_LW_Plot_19 Q8: 4 taxa, 2 m off line","SavMon_LW_Plot_19 Q9: 4 taxa, 20 m off line","SavMon_LW_Plot_19 Q10: 4 taxa, 15 m off line","SavMon_LW_Plot_19 Q11: 2 taxa, 14 m off line","SavMon_LW_Plot_19 Q12: 0 taxa, 26 m off line","SavMon_LW_Plot_19 Q13: 3 taxa, 5 m off line","SavMon_LW_Plot_19 Q14: 2 taxa, 9 m off line","SavMon_LW_Plot_19 Q15: 2 taxa, 4 m off line","SavMon_LW_Plot_19 Q16: 3 taxa, 5 m off line","SavMon_LW_Plot_19 Q17: 2 taxa, 2 m off line","SavMon_LW_Plot_19 Q18: 2 taxa, 5 m off line","SavMon_LW_Plot_19 Q19: 2 taxa, 11 m off line","SavMon_LW_Plot_19 Q20: 1 taxa, 13 m off line","SavMon_LW_Plot_27 Q1: 5 taxa, 3 m off line","SavMon_LW_Plot_27 Q2: 9 taxa, 1 m off line","SavMon_LW_Plot_27 Q3: 4 taxa, 11 m off line","SavMon_LW_Plot_27 Q4: 1 taxa, 2 m off line","SavMon_LW_Plot_27 Q5: 2 taxa, 19 m off line","SavMon_LW_Plot_27 Q6: 2 taxa, 15 m off line","SavMon_LW_Plot_27 Q7: 6 taxa, 9 m off line","SavMon_LW_Plot_27 Q8: 3 taxa, 30 m off line","SavMon_LW_Plot_27 Q9: 4 taxa, 25 m off line","SavMon_LW_Plot_27 Q10: 3 taxa, 27 m off line","SavMon_LW_Plot_27 Q11: 3 taxa, 26 m off line","SavMon_LW_Plot_27 Q12: 2 taxa, 27 m off line","SavMon_LW_Plot_27 Q13: 2 taxa, 22 m off line","SavMon_LW_Plot_27 Q14: 4 taxa, 16 m off line","SavMon_LW_Plot_27 Q15: 2 taxa, 17 m off line","SavMon_LW_Plot_27 Q16: 5 taxa, 13 m off line","SavMon_LW_Plot_27 Q17: 3 taxa, 10 m off line","SavMon_LW_Plot_27 Q18: 3 taxa, 12 m off line","SavMon_LW_Plot_27 Q19: 5 taxa, 2 m off line","SavMon_LW_Plot_27 Q20: 5 taxa, 4 m off line","SavMon_LW_Plot_26 Q1: 7 taxa, 7 m off line","SavMon_LW_Plot_26 Q2: 1 taxa, 3 m off line","SavMon_LW_Plot_26 Q3: 2 taxa, 3 m off line","SavMon_LW_Plot_26 Q4: 6 taxa, 8 m off line","SavMon_LW_Plot_26 Q5: 1 taxa, 5 m off line","SavMon_LW_Plot_26 Q6: 2 taxa, 5 m off line","SavMon_LW_Plot_26 Q7: 2 taxa, 11 m off line","SavMon_LW_Plot_26 Q8: 3 taxa, 6 m off line","SavMon_LW_Plot_26 Q9: 4 taxa, 9 m off line","SavMon_LW_Plot_26 Q10: 5 taxa, 12 m off line","SavMon_LW_Plot_26 Q11: 1 taxa, 4 m off line","SavMon_LW_Plot_26 Q12: 4 taxa, 3 m off line","SavMon_LW_Plot_26 Q13: 4 taxa, 1 m off line","SavMon_LW_Plot_26 Q14: 3 taxa, 5 m off line","SavMon_LW_Plot_26 Q15: 3 taxa, 0 m off line","SavMon_LW_Plot_26 Q16: 3 taxa, 6 m off line","SavMon_LW_Plot_26 Q17: 3 taxa, 8 m off line","SavMon_LW_Plot_26 Q18: 3 taxa, 4 m off line","SavMon_LW_Plot_26 Q19: 2 taxa, 13 m off line","SavMon_LW_Plot_26 Q20: 5 taxa, 13 m off line","SavMon_LW_Plot_05 Q1: 1 taxa, 22 m off line","SavMon_LW_Plot_05 Q2: 2 taxa, 25 m off line","SavMon_LW_Plot_05 Q3: 5 taxa, 27 m off line","SavMon_LW_Plot_05 Q4: 2 taxa, 25 m off line","SavMon_LW_Plot_05 Q5: 2 taxa, 19 m off line","SavMon_LW_Plot_05 Q6: 1 taxa, 20 m off line","SavMon_LW_Plot_05 Q7: 3 taxa, 22 m off line","SavMon_LW_Plot_05 Q8: 2 taxa, 25 m off line","SavMon_LW_Plot_05 Q9: 3 taxa, 24 m off line","SavMon_LW_Plot_05 Q10: 3 taxa, 27 m off line","SavMon_LW_Plot_05 Q11: 1 taxa, 23 m off line","SavMon_LW_Plot_05 Q12: 3 taxa, 25 m off line","SavMon_LW_Plot_05 Q13: 3 taxa, 22 m off line","SavMon_LW_Plot_05 Q14: 0 taxa, 19 m off line","SavMon_LW_Plot_05 Q15: 1 taxa, 18 m off line","SavMon_LW_Plot_05 Q16: 3 taxa, 6 m off line","SavMon_LW_Plot_05 Q17: 3 taxa, 14 m off line","SavMon_LW_Plot_05 Q18: 2 taxa, 14 m off line","SavMon_LW_Plot_05 Q19: 2 taxa, 14 m off line","SavMon_LW_Plot_05 Q20: 1 taxa, 20 m off line","SavMon_LW_Plot_09 Q1: 5 taxa, 5 m off line","SavMon_LW_Plot_09 Q2: 3 taxa, 8 m off line","SavMon_LW_Plot_09 Q3: 3 taxa, 10 m off line","SavMon_LW_Plot_09 Q4: 2 taxa, 11 m off line","SavMon_LW_Plot_09 Q5: 3 taxa, 6 m off line","SavMon_LW_Plot_09 Q6: 2 taxa, 4 m off line","SavMon_LW_Plot_09 Q7: 3 taxa, 9 m off line","SavMon_LW_Plot_09 Q8: 6 taxa, 7 m off line","SavMon_LW_Plot_09 Q9: 5 taxa, 4 m off line","SavMon_LW_Plot_09 Q10: 5 taxa, 22 m off line","SavMon_LW_Plot_09 Q11: 7 taxa, 7 m off line","SavMon_LW_Plot_09 Q12: 8 taxa, 9 m off line","SavMon_LW_Plot_09 Q13: 5 taxa, 4 m off line","SavMon_LW_Plot_09 Q14: 8 taxa, 13 m off line","SavMon_LW_Plot_09 Q15: 5 taxa, 0 m off line","SavMon_LW_Plot_09 Q16: 4 taxa, 7 m off line","SavMon_LW_Plot_09 Q17: 3 taxa, 2 m off line","SavMon_LW_Plot_09 Q18: 3 taxa, 0 m off line","SavMon_LW_Plot_09 Q19: 6 taxa, 8 m off line","SavMon_LW_Plot_09 Q20: 4 taxa, 8 m off line","SavMon_LW_Plot_14 Q1: 5 taxa, 13 m off line","SavMon_LW_Plot_14 Q2: 3 taxa, 7 m off line","SavMon_LW_Plot_14 Q3: 3 taxa, 14 m off line","SavMon_LW_Plot_14 Q4: 3 taxa, 9 m off line","SavMon_LW_Plot_14 Q5: 3 taxa, 10 m off line","SavMon_LW_Plot_14 Q6: 4 taxa, 8 m off line","SavMon_LW_Plot_14 Q7: 6 taxa, 3 m off line","SavMon_LW_Plot_14 Q8: 3 taxa, 0 m off line","SavMon_LW_Plot_14 Q9: 4 taxa, 2 m off line","SavMon_LW_Plot_14 Q10: 5 taxa, 21 m off line","SavMon_LW_Plot_14 Q11: 4 taxa, 17 m off line","SavMon_LW_Plot_14 Q12: 3 taxa, 1 m off line","SavMon_LW_Plot_14 Q13: 4 taxa, 4 m off line","SavMon_LW_Plot_14 Q14: 5 taxa, 15 m off line","SavMon_LW_Plot_14 Q15: 5 taxa, 8 m off line","SavMon_LW_Plot_14 Q16: 5 taxa, 9 m off line","SavMon_LW_Plot_14 Q17: 3 taxa, 7 m off line","SavMon_LW_Plot_14 Q18: 3 taxa, 10 m off line","SavMon_LW_Plot_14 Q19: 4 taxa, 15 m off line","SavMon_LW_Plot_14 Q20: 3 taxa, 17 m off line","SavMon_LW_Plot_10 Q1: 3 taxa, 4 m off line","SavMon_LW_Plot_10 Q2: 3 taxa, 3 m off line","SavMon_LW_Plot_10 Q3: 3 taxa, 0 m off line","SavMon_LW_Plot_10 Q4: 4 taxa, 0 m off line","SavMon_LW_Plot_10 Q5: 6 taxa, 5 m off line","SavMon_LW_Plot_10 Q6: 3 taxa, 3 m off line","SavMon_LW_Plot_10 Q7: 2 taxa, 3 m off line","SavMon_LW_Plot_10 Q8: 3 taxa, 2 m off line","SavMon_LW_Plot_10 Q9: 1 taxa, 4 m off line","SavMon_LW_Plot_10 Q10: 2 taxa, 1 m off line","SavMon_LW_Plot_10 Q11: 5 taxa, 0 m off line","SavMon_LW_Plot_10 Q12: 4 taxa, 5 m off line","SavMon_LW_Plot_10 Q13: 5 taxa, 1 m off line","SavMon_LW_Plot_10 Q14: 3 taxa, 6 m off line","SavMon_LW_Plot_10 Q15: 7 taxa, 3 m off line","SavMon_LW_Plot_10 Q16: 2 taxa, 6 m off line","SavMon_LW_Plot_10 Q17: 4 taxa, 13 m off line","SavMon_LW_Plot_10 Q18: 3 taxa, 5 m off line","SavMon_LW_Plot_10 Q19: 2 taxa, 10 m off line","SavMon_LW_Plot_10 Q20: 3 taxa, 11 m off line","SavMon_LW_Plot_30 Q1: 3 taxa, 8 m off line","SavMon_LW_Plot_30 Q2: 4 taxa, 8 m off line","SavMon_LW_Plot_30 Q3: 1 taxa, 11 m off line","SavMon_LW_Plot_30 Q4: 4 taxa, 7 m off line","SavMon_LW_Plot_30 Q5: 2 taxa, 11 m off line","SavMon_LW_Plot_30 Q6: 5 taxa, 7 m off line","SavMon_LW_Plot_30 Q7: 6 taxa, 3 m off line","SavMon_LW_Plot_30 Q8: 5 taxa, 6 m off line","SavMon_LW_Plot_30 Q9: 4 taxa, 8 m off line","SavMon_LW_Plot_30 Q10: 3 taxa, 3 m off line","SavMon_LW_Plot_30 Q11: 6 taxa, 10 m off line","SavMon_LW_Plot_30 Q12: 3 taxa, 12 m off line","SavMon_LW_Plot_30 Q13: 4 taxa, 2 m off line","SavMon_LW_Plot_30 Q14: 3 taxa, 1 m off line","SavMon_LW_Plot_30 Q15: 8 taxa, 3 m off line","SavMon_LW_Plot_30 Q16: 5 taxa, 6 m off line","SavMon_LW_Plot_30 Q17: 1 taxa, 8 m off line","SavMon_LW_Plot_30 Q18: 5 taxa, 3 m off line","SavMon_LW_Plot_30 Q19: 6 taxa, 6 m off line","SavMon_LW_Plot_30 Q20: 3 taxa, 42 m off line","SavMon_LW_Plot_03 Q1: 3 taxa, 16 m off line","SavMon_LW_Plot_03 Q2: 2 taxa, 7 m off line","SavMon_LW_Plot_03 Q3: 3 taxa, 0 m off line","SavMon_LW_Plot_03 Q4: 4 taxa, 12 m off line","SavMon_LW_Plot_03 Q5: 3 taxa, 14 m off line","SavMon_LW_Plot_03 Q6: 3 taxa, 5 m off line","SavMon_LW_Plot_03 Q7: 2 taxa, 5 m off line","SavMon_LW_Plot_03 Q8: 1 taxa, 2 m off line","SavMon_LW_Plot_03 Q9: 2 taxa, 6 m off line","SavMon_LW_Plot_03 Q10: 3 taxa, 0 m off line","SavMon_LW_Plot_03 Q11: 2 taxa, 3 m off line","SavMon_LW_Plot_03 Q12: 2 taxa, 14 m off line","SavMon_LW_Plot_03 Q13: 0 taxa, 4 m off line","SavMon_LW_Plot_03 Q14: 2 taxa, 2 m off line","SavMon_LW_Plot_03 Q15: 1 taxa, 5 m off line","SavMon_LW_Plot_03 Q16: 2 taxa, 9 m off line","SavMon_LW_Plot_03 Q17: 3 taxa, 4 m off line","SavMon_LW_Plot_03 Q18: 3 taxa, 10 m off line","SavMon_LW_Plot_03 Q19: 2 taxa, 10 m off line","SavMon_LW_Plot_03 Q20: 0 taxa, 9 m off line","SavMon_LW_Plot_22 Q1: 5 taxa, 4 m off line","SavMon_LW_Plot_22 Q2: 4 taxa, 2 m off line","SavMon_LW_Plot_22 Q3: 2 taxa, 1 m off line","SavMon_LW_Plot_22 Q4: 4 taxa, 3 m off line","SavMon_LW_Plot_22 Q5: 3 taxa, 1 m off line","SavMon_LW_Plot_22 Q6: 5 taxa, 2 m off line","SavMon_LW_Plot_22 Q7: 2 taxa, 10 m off line","SavMon_LW_Plot_22 Q8: 4 taxa, 13 m off line","SavMon_LW_Plot_22 Q9: 3 taxa, 9 m off line","SavMon_LW_Plot_22 Q10: 3 taxa, 7 m off line","SavMon_LW_Plot_22 Q11: 2 taxa, 3 m off line","SavMon_LW_Plot_22 Q12: 4 taxa, 1 m off line","SavMon_LW_Plot_22 Q13: 3 taxa, 7 m off line","SavMon_LW_Plot_22 Q14: 3 taxa, 1 m off line","SavMon_LW_Plot_22 Q15: 3 taxa, 4 m off line","SavMon_LW_Plot_22 Q16: 3 taxa, 2 m off line","SavMon_LW_Plot_22 Q17: 4 taxa, 17 m off line","SavMon_LW_Plot_22 Q18: 2 taxa, 3 m off line","SavMon_LW_Plot_22 Q19: 1 taxa, 2 m off line","SavMon_LW_Plot_22 Q20: 4 taxa, 3 m off line","SavMon_LW_Plot_12 Q1: 7 taxa, 4 m off line","SavMon_LW_Plot_12 Q2: 7 taxa, 3 m off line","SavMon_LW_Plot_12 Q3: 4 taxa, 5 m off line","SavMon_LW_Plot_12 Q4: 9 taxa, 7 m off line","SavMon_LW_Plot_12 Q5: 5 taxa, 3 m off line","SavMon_LW_Plot_12 Q6: 5 taxa, 0 m off line","SavMon_LW_Plot_12 Q7: 4 taxa, 15 m off line","SavMon_LW_Plot_12 Q8: 4 taxa, 8 m off line","SavMon_LW_Plot_12 Q9: 4 taxa, 0 m off line","SavMon_LW_Plot_12 Q10: 3 taxa, 4 m off line","SavMon_LW_Plot_12 Q11: 6 taxa, 6 m off line","SavMon_LW_Plot_12 Q12: 6 taxa, 5 m off line","SavMon_LW_Plot_12 Q13: 7 taxa, 3 m off line","SavMon_LW_Plot_12 Q14: 4 taxa, 7 m off line","SavMon_LW_Plot_12 Q15: 3 taxa, 6 m off line","SavMon_LW_Plot_12 Q16: 7 taxa, 4 m off line","SavMon_LW_Plot_12 Q17: 4 taxa, 5 m off line","SavMon_LW_Plot_12 Q18: 5 taxa, 8 m off line","SavMon_LW_Plot_12 Q19: 6 taxa, 5 m off line","SavMon_LW_Plot_12 Q20: 5 taxa, 25 m off line","SavMon_LW_Plot_08 Q1: 5 taxa, 3 m off line","SavMon_LW_Plot_08 Q2: 5 taxa, 2 m off line","SavMon_LW_Plot_08 Q3: 6 taxa, 0 m off line","SavMon_LW_Plot_08 Q4: 6 taxa, 11 m off line","SavMon_LW_Plot_08 Q5: 5 taxa, 13 m off line","SavMon_LW_Plot_08 Q6: 4 taxa, 9 m off line","SavMon_LW_Plot_08 Q7: 5 taxa, 9 m off line","SavMon_LW_Plot_08 Q8: 4 taxa, 4 m off line","SavMon_LW_Plot_08 Q9: 8 taxa, 6 m off line","SavMon_LW_Plot_08 Q10: 3 taxa, 9 m off line","SavMon_LW_Plot_08 Q11: 4 taxa, 6 m off line","SavMon_LW_Plot_08 Q12: 8 taxa, 20 m off line","SavMon_LW_Plot_08 Q13: 5 taxa, 26 m off line","SavMon_LW_Plot_08 Q14: 4 taxa, 27 m off line","SavMon_LW_Plot_08 Q15: 8 taxa, 23 m off line","SavMon_LW_Plot_08 Q16: 6 taxa, 2 m off line","SavMon_LW_Plot_08 Q17: 5 taxa, 5 m off line","SavMon_LW_Plot_08 Q18: 3 taxa, 1 m off line","SavMon_LW_Plot_08 Q19: 6 taxa, 3 m off line","SavMon_LW_Plot_08 Q20: 3 taxa, 12 m off line"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[0.21743,0.2853977],"lng":[37.3568228,37.5169656]}},"evals":[],"jsHooks":[]}</script>
+<p>Grey: prescribed centroids. Lines: registered transects (red when flagged). Dots: quadrats (red when off transect).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="all-flags" class="level2">
+<h2 class="anchored" data-anchor-id="all-flags">5. All flags</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">arrange</span>(flags, severity, level, check, plot), <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">filter =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e89a3e71ccd55de90875" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e89a3e71ccd55de90875">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["survey","survey","plot","plot","plot","plot","plot","plot","plot","plot","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","survey","plot","plot","plot","plot","plot","plot","plot","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","quadrat","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","species","survey","survey","survey"],["submission_rejected","submission_rejected","plot_not_viable","primary_plot_not_surveyed","primary_plot_not_surveyed","primary_plot_not_surveyed","primary_plot_not_surveyed","primary_plot_not_surveyed","primary_plot_not_surveyed","primary_plot_not_surveyed","uninformative_comment","uninformative_comment","uninformative_comment","uninformative_comment","uninformative_comment","uninformative_comment","uninformative_comment","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","canonical_not_Genus_species","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","still_unidentified","typed_name_differs_from_identification","typed_name_differs_from_identification","typed_name_differs_from_identification","typed_name_differs_from_identification","typed_name_differs_from_identification","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","form_summary_mismatch","midpoint_shift","transect_length","transect_length","transect_length","transect_length","transect_length","transect_length","duplicate_species_in_quadrat","duplicate_species_in_quadrat","duplicate_species_in_quadrat","duplicate_species_in_quadrat","duplicate_species_in_quadrat","duplicate_species_in_quadrat","duplicate_species_in_quadrat","empty_species_entry","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","quadrat_off_transect","extra_species_already_on_list","extra_species_already_on_list","extra_species_already_on_list","extra_species_already_on_list","extra_species_already_on_list","extra_species_already_on_list","extra_species_already_on_list","identification_note","identification_note","identification_note","identification_note","identification_note","identification_note","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","same_identification_multiple_codes","duration_out_of_range","duration_out_of_range","duration_out_of_range"],["error","error","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","info","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning","warning"],["SavMon_LW_Plot_18","SavMon_LW_Plot_21","SavMon_LW_Plot_23","SavMon_LW_Plot_23","SavMon_LW_Plot_31","SavMon_LW_Plot_32","SavMon_LW_Plot_33","SavMon_LW_Plot_34","SavMon_LW_Plot_35","SavMon_LW_Plot_36","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_07","SavMon_LW_Plot_13","SavMon_LW_Plot_17","SavMon_LW_Plot_17","SavMon_LW_Plot_29",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"SavMon_LW_Plot_01","SavMon_LW_Plot_02","SavMon_LW_Plot_04","SavMon_LW_Plot_05","SavMon_LW_Plot_07","SavMon_LW_Plot_08","SavMon_LW_Plot_09","SavMon_LW_Plot_10","SavMon_LW_Plot_14","SavMon_LW_Plot_15","SavMon_LW_Plot_16","SavMon_LW_Plot_19","SavMon_LW_Plot_20","SavMon_LW_Plot_21","SavMon_LW_Plot_21","SavMon_LW_Plot_22","SavMon_LW_Plot_24","SavMon_LW_Plot_25","SavMon_LW_Plot_26","SavMon_LW_Plot_27","SavMon_LW_Plot_29","SavMon_LW_Plot_30","SavMon_LW_Plot_46","SavMon_LW_Plot_14","SavMon_LW_Plot_01","SavMon_LW_Plot_15","SavMon_LW_Plot_19","SavMon_LW_Plot_22","SavMon_LW_Plot_27","SavMon_LW_Plot_29","SavMon_LW_Plot_11","SavMon_LW_Plot_12","SavMon_LW_Plot_12","SavMon_LW_Plot_12","SavMon_LW_Plot_18","SavMon_LW_Plot_18","SavMon_LW_Plot_22","SavMon_LW_Plot_28","SavMon_LW_Plot_01","SavMon_LW_Plot_01","SavMon_LW_Plot_03","SavMon_LW_Plot_04","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_05","SavMon_LW_Plot_06","SavMon_LW_Plot_06","SavMon_LW_Plot_06","SavMon_LW_Plot_07","SavMon_LW_Plot_07","SavMon_LW_Plot_07","SavMon_LW_Plot_08","SavMon_LW_Plot_08","SavMon_LW_Plot_08","SavMon_LW_Plot_08","SavMon_LW_Plot_09","SavMon_LW_Plot_11","SavMon_LW_Plot_12","SavMon_LW_Plot_12","SavMon_LW_Plot_13","SavMon_LW_Plot_13","SavMon_LW_Plot_13","SavMon_LW_Plot_13","SavMon_LW_Plot_13","SavMon_LW_Plot_13","SavMon_LW_Plot_14","SavMon_LW_Plot_14","SavMon_LW_Plot_14","SavMon_LW_Plot_14","SavMon_LW_Plot_18","SavMon_LW_Plot_19","SavMon_LW_Plot_19","SavMon_LW_Plot_19","SavMon_LW_Plot_19","SavMon_LW_Plot_19","SavMon_LW_Plot_19","SavMon_LW_Plot_21","SavMon_LW_Plot_22","SavMon_LW_Plot_25","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_27","SavMon_LW_Plot_29","SavMon_LW_Plot_30",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"SavMon_LW_Plot_08","SavMon_LW_Plot_18","SavMon_LW_Plot_21"],["uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c","uuid:c6cc7231-7af6-4bc5-b281-565c53f21763",null,null,null,null,null,null,null,null,"uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:430e85a3-44ce-45f4-9974-c6a61569e78b","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:b940a5e4-f4ed-4120-ba4e-70f858b86dfd","uuid:b940a5e4-f4ed-4120-ba4e-70f858b86dfd","uuid:938c15e5-c942-49aa-8e6d-9633189870ff",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da","uuid:e63b6ad6-7893-4cca-a1db-00fbde18a2aa","uuid:4137458f-31e5-4355-b4ad-47858fb11503","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:430e85a3-44ce-45f4-9974-c6a61569e78b","uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:95cde0b4-8b49-4f5d-a3c7-6765e1c06466","uuid:3865525f-1d45-40fc-83ca-7e30fafe6b54","uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4","uuid:54452130-d92e-4996-a0d7-9401811b9ed7","uuid:599e04cf-832f-4535-8305-967918d12026","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:b816a9b4-f338-432a-83d7-1cf354583f0f","uuid:c6cc7231-7af6-4bc5-b281-565c53f21763","uuid:49d73df9-2d36-4a1e-aa29-6f94f23a7513","uuid:ce4f999d-8849-42a9-a870-1205d47b1903","uuid:ef5c5535-1739-481b-af66-71061de5dcd2","uuid:8e5f5c9d-d697-4358-b766-db4a41f28c3e","uuid:2439f628-f86d-4770-98d1-ae7b99a4d91f","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:938c15e5-c942-49aa-8e6d-9633189870ff","uuid:c17516f9-53dd-4fda-b4e6-e257068198b9","uuid:dae71a1b-a6f9-4a6d-a7e5-8ffbb89fad6f",null,null,null,null,null,null,null,"uuid:9e1251bb-84c1-4b7a-a8bb-bafcf7afc82c","uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907","uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907","uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907","uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c","uuid:cf362fbc-991a-4db1-8d49-6c1d29fd49c8","uuid:ce4f999d-8849-42a9-a870-1205d47b1903","uuid:c4ea3469-7e1c-474a-9ce6-fc1926e590e2","uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da","uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da","uuid:967cb42c-f21a-4ba6-92be-81cd6d2b0e8d","uuid:4137458f-31e5-4355-b4ad-47858fb11503","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:5d242bf2-8888-4eb0-9082-431482177425","uuid:7ae61d55-3663-422e-aad2-9104b56c9a47","uuid:7ae61d55-3663-422e-aad2-9104b56c9a47","uuid:7ae61d55-3663-422e-aad2-9104b56c9a47","uuid:430e85a3-44ce-45f4-9974-c6a61569e78b","uuid:430e85a3-44ce-45f4-9974-c6a61569e78b","uuid:430e85a3-44ce-45f4-9974-c6a61569e78b","uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:95cde0b4-8b49-4f5d-a3c7-6765e1c06466","uuid:9e1251bb-84c1-4b7a-a8bb-bafcf7afc82c","uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907","uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:ebe93f04-c927-4af3-9668-21b6540c01ea","uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4","uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4","uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4","uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4","uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:9ec95900-d4e8-4825-be75-07834b98cc6c","uuid:49d73df9-2d36-4a1e-aa29-6f94f23a7513","uuid:ce4f999d-8849-42a9-a870-1205d47b1903","uuid:8e5f5c9d-d697-4358-b766-db4a41f28c3e","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:c803a008-7014-4a4e-a485-68e1d90d767c","uuid:938c15e5-c942-49aa-8e6d-9633189870ff","uuid:c17516f9-53dd-4fda-b4e6-e257068198b9",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"uuid:359a5da6-d237-4203-b838-8596bdbd4935","uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c","uuid:c6cc7231-7af6-4bc5-b281-565c53f21763"],[null,null,null,null,null,null,null,null,null,null,"7","8","3","19","13","17","4","herb_041","herb_020","herb_004","herb_001","herb_013","herb_015","herb_063","herb_104","herb_027","herb_102","herb_098","herb_040","herb_022","herb_057","herb_005","herb_053","herb_074","herb_067","herb_089","herb_018","herb_069","herb_028","herb_084","herb_099","herb_092","herb_090","herb_079","herb_083","herb_062","herb_077","herb_075","herb_046","herb_073","herb_064","herb_065","herb_047","herb_059","herb_060","herb_048","herb_050","herb_051","herb_043","herb_032","herb_003","herb_002","herb_011","herb_010","herb_045","herb_094","herb_017","herb_100","herb_076","herb_058","herb_097","herb_068","herb_086","herb_087","herb_038","herb_061","herb_037","herb_078","herb_082","herb_034","herb_072","herb_066","herb_056","herb_033","herb_042","herb_026","herb_036","herb_039","herb_030","herb_027","herb_022","herb_028","herb_062","herb_050",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"2","2","4","20","15","2","14","6","2","18","1","3","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","20","7","8","9","1","2","19","12","13","14","15","10","4","7","20","1","2","4","18","19","20","10","11","14","20","19","1","3","7","9","10","12","10","17","1","5","6","8","9","10","11","12","13","14","15","17","20","herb_007","herb_016","herb_053","herb_095","herb_052","herb_006","herb_008","herb_100","herb_058","herb_072","herb_071","herb_033","herb_039","herb_004","herb_001","herb_104","herb_040","herb_049","herb_067","herb_014","herb_019","herb_093","herb_070","herb_031","herb_055","herb_059","herb_032","herb_021","herb_025",null,null,null],["excluded from summaries","excluded from summaries","On private property","registered","not registered","not registered","not registered","not registered","not registered","not registered",".",".","\nB","\n","L",",",",","Pogonarthria fleckii","Oldenladia corymbosa","Tephrosia purpurea","Evolvulus alsinoides","Xenostegia tridentata","Rhynchosia totta","Sida chrysantha","Justicia divaricata","Macrotalyma daltonii","Cyperus margaritaceus","Zornia glochidiala","Aristida scabrivalvis","Phyllanthus pantandrus","Erlangea misera","Crotolaria sphaerocarpa","Pechuel-loeschea leubnitziae","Hermbstaedtia linearis","Aristida scabrivalvis","Brachiara dura","Crotolaria heidmannii","Asparagus africanus","Jacquemontia tannifolia","Polygala erioptera","Commelina africana","Ipomea leucanthemum","Xenostegia pinnata","Setaria pumila","Pavonia clathrata","Abitulum ramosum","Chamaecrista absus","Cenchrus bifloris","Senna obtusifolia","Indigofera filipes","Ipomea sinensis","Gisekia pharnaceoides","Panicum hirtum","Justicia divaricata","Citrullus naudinianus","Thunbergia reticulata","Hibiscus sidiformis","Boerhavia coccinea","Striga gesnerioides","Rhynchosia minima","Alectra orobanchoides",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Macrotalyma daltonii -&gt; Macrotyloma daltonii","Phyllanthus pantandrus -&gt; Phyllanthus pentandrus","Jacquemontia tannifolia -&gt; Jacquemontia tamnifolia","Abitulum ramosum -&gt; Abutilon ramosum","Hibiscus sidiformis -&gt; Hibiscuc sidiformis","form 19 vs recomputed 20","form 17 vs recomputed 19","form 18 vs recomputed 19","form 12 vs recomputed 19","form 17 vs recomputed 20","form 19 vs recomputed 20","form 19 vs recomputed 20","form 18 vs recomputed 20","form 11 vs recomputed 20","form 17 vs recomputed 20","form 19 vs recomputed 20","form 16 vs recomputed 19","form 19 vs recomputed 20","form 18 vs recomputed 20","form 19 vs recomputed 20","form 16 vs recomputed 20","form 19 vs recomputed 20","form 19 vs recomputed 20","form 19 vs recomputed 20","form 19 vs recomputed 20","form 19 vs recomputed 20","form 14 vs recomputed 20","form 14 vs recomputed 20","34","63","60","23","66","29","62","Sida rhombifolia","herb_010","herb_017","Cenchrus ciliaris","herb_017","Oldenladia corymbosa","Macrotyloma daltonii",null,"20","44","16","20","22","25","27","25","19","20","22","25","24","27","23","25","22","19","18","20","15","16","23","22","18","15","20","26","27","23","22","32","15","25","21","25","16","17","18","20","21","17","15","17","16","18","33","28","20","15","26","17","17","18","19","15","30","25","27","26","27","22","16","17","17","42","Kyphocarpa angustifolia ~ Kyphocarpa angustifolia","Cenchrus ciliaris ~ Cenchrus ciliaris","Pechuel-loeschea leubnitziae ~ Pechuel-loeschea leubnitziae","Chloris virgata ~ Chloris virgata","Corchorus tridens ~ Corchorus tridens","Indigofera tinctoria ~ Indigofera tinctoria","Ocimum americanum ~ Ocimum americanum","duplicate of wood_005 but below 40cm so should be excluded","duplicate of herb_011","duplicate of herb_036","woody but below 40cm so should be excluded","duplicate of herb_011","duplicate of herb_011","Tephrosia purpurea","Evolvulus alsinoides","Justicia divaricata","Aristida scabrivalvis","Ipomea dichroa","Aristida scabrivalvis","Crotolaria pisicarpa","Ipomea dichroa","Evolvulus alsinoides","Rhynchosia minima","Crotolaria pisicarpa","Tephrosia purpurea","Justicia divaricata","Rhynchosia minima","Ipomea dichroa","Ipomea dichroa","236","26","25"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>level<\/th>\n      <th>check<\/th>\n      <th>severity<\/th>\n      <th>plot<\/th>\n      <th>survey_id<\/th>\n      <th>item<\/th>\n      <th>detail<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"name":"level","targets":0},{"name":"check","targets":1},{"name":"severity","targets":2},{"name":"plot","targets":3},{"name":"survey_id","targets":4},{"name":"item","targets":5},{"name":"detail","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="notes-for-the-tech-team" class="level2">
+<h2 class="anchored" data-anchor-id="notes-for-the-tech-team">6. Notes for the Tech team</h2>
+<ul>
+<li><strong>Inputs</strong>: the four ODK exports plus the entity lists <code>species</code>, <code>species_extra</code>, <code>species_extra_ids</code>, <code>centroids</code>, <code>project_team</code>. All joins use ODK <code>KEY</code>/<code>PARENT_KEY</code> and entity uuids; the only string matching is the fuzzy “already on list” check.</li>
+<li><strong>Derived tables</strong> (PostgreSQL views): <code>surveys</code>, <code>quadrats</code>, <code>observations</code> (quadrat x taxon with <code>status</code>), <code>transects</code>. Species resolve as <code>uuid -&gt; species_extra.unknown_index -&gt; species_extra_ids.species_name</code>, so updating the identification list updates the observations.</li>
+<li><strong>Checks</strong>: each rule is one filter with its threshold in <code>rules</code>; the output is one long <code>flags</code> table (<code>level, check, severity, plot, survey_id, item, detail</code>) keyed on submission. The dashboard is flag counts by severity and check plus the map.</li>
+<li><strong>Form issues to fix upstream</strong>: <code>quadrats_with_species</code> undercounts in 23 of 32 submissions although its own XPath rule reproduces the recomputed value, so recompute it server-side. New species claim the n-th inactive placeholder of <code>species_extra</code> as seen by the device, so two offline devices can claim the same uuid; assign it server-side.</li>
+<li><strong>To confirm with Biometrics</strong>: the 15 m off-transect tolerance, whether codes noted as “duplicate of” should be merged before computing richness, and whether <code>Genus_species</code> should be enforced by the form constraint.</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
