@@ -247,3 +247,95 @@ form lets a species be selected both from the list and as an additional entry.
 submissions. This is a calculation-timing issue in the ODK form, not a field error, and the
 platform should recompute it.
 
+## 4. Data quality report
+
+### a. Survey-level summary
+
+```{r}
+surveys |>
+  left_join(obs |> filter(!is.na(name)) |> summarise(n_taxa = n_distinct(name), n_unknown = n_distinct(name[status == "unknown"]), .by = survey_id), by = "survey_id") |>
+  left_join(n_flags(flags, "survey_id"), by = "survey_id") |>
+  transmute(plot, date, recorder, team, duration_min = round(duration_min), n_quadrats, quadrats_with_species,
+            n_taxa, n_unknown, n_flags = coalesce(n_flags, 0L), review_state) |>
+  arrange(date) |>
+  datatable(rownames = FALSE, options = list(pageLength = 40, dom = "t"))
+```
+
+### b. Plot-level summary
+
+```{r}
+plot_summary <- valid_surveys |>
+  select(plot, date, recorder) |>
+  left_join(summarise(valid_quadrats, quadrats_with_herbs = sum(herbs_present), mean_quadrat_richness = round(mean(n_species), 1), .by = plot), by = "plot") |>
+  left_join(summarise(valid_obs, on_list = n_distinct(name[status == "on list"]), identified_later = n_distinct(name[status == "identified later"]),
+                      unknown = n_distinct(name[status == "unknown"]), .by = plot), by = "plot") |>
+  left_join(transmute(transects, plot, plot_status, length_m = round(length_m), midpoint_shift_m = round(midpoint_shift_m)), by = "plot") |>
+  left_join(flags |> filter(is.na(survey_id) | !survey_id %in% surveys$survey_id[surveys$rejected]) |> n_flags("plot"), by = "plot") |>
+  mutate(richness = on_list + identified_later + unknown, n_flags = coalesce(n_flags, 0L)) |>
+  arrange(plot)
+
+datatable(plot_summary, rownames = FALSE, options = list(pageLength = 40, dom = "t"))
+```
+
+```{r}
+#| fig-cap: "Taxa per plot by identification status. Unknown codes may duplicate each other, so richness is an upper bound."
+plot_summary |>
+  pivot_longer(c(on_list, identified_later, unknown), names_to = "status") |>
+  ggplot(aes(value, fct_rev(plot), fill = status)) +
+  geom_col() +
+  labs(x = "Number of taxa", y = NULL, fill = NULL) +
+  theme_minimal()
+```
+
+### c. Assessment of sampling effort
+
+`r nrow(valid_surveys)` valid submissions covered `r nrow(valid_quadrats)` quadrats and recorded
+`r n_distinct(valid_obs$name)` taxa, of which `r n_distinct(valid_obs$name[valid_obs$status == "unknown"])`
+are still unidentified codes. Coverage of the prescribed design, species accumulation and a
+Chao estimate of the species pool:
+
+```{r}
+prescribed |> summarise(prescribed = n(), registered = sum(registered), surveyed = sum(surveyed), .by = sample_status) |> knitr::kable()
+
+comm <- function(unit, ids) valid_obs |> distinct(u = .data[[unit]], name) |> mutate(p = 1L) |>
+  complete(u = ids, name, fill = list(p = 0L)) |>   # keeps quadrats with no herbs as sampling units
+  pivot_wider(names_from = name, values_from = p) |> column_to_rownames("u")
+comms <- list(quadrats = comm("quadrat_id", valid_quadrats$quadrat_id), plots = comm("plot", valid_surveys$plot))
+
+imap(comms, \(x, unit) { a <- specaccum(x, "exact"); tibble(unit, sites = a$sites, richness = a$richness, sd = a$sd) }) |>
+  list_rbind() |>
+  ggplot(aes(sites, richness)) +
+  geom_ribbon(aes(ymin = richness - 1.96 * sd, ymax = richness + 1.96 * sd), alpha = 0.2) +
+  geom_line() +
+  facet_wrap(~unit, scales = "free_x") +
+  labs(x = "Sampling units", y = "Taxa") +
+  theme_minimal()
+
+specpool(comms$plots) |> select(Species, chao, chao.se, jack1, n) |> knitr::kable(digits = 1)
+```
+
+Both curves are still rising and Chao estimates about
+`r round(specpool(comms$plots)$chao)` ± `r round(specpool(comms$plots)$chao.se)` taxa against
+`r ncol(comms$plots)` observed, so roughly three quarters of the herbaceous pool was captured.
+The per-quadrat curve flattens well before 600 units while the per-plot curve does not, so
+additional plots, not more quadrats per plot, would add species. Richness per plot ranges from
+`r min(plot_summary$richness)` to `r max(plot_summary$richness)` taxa. Because unidentified
+codes may duplicate each other, these numbers are upper bounds.
+
+### d. Map of transect locations
+
+```{r}
+#| fig-cap: "Grey: prescribed centroids. Lines: registered transects (red when flagged). Dots: quadrats (red when off transect)."
+flagged <- flags$plot[flags$level == "plot" & flags$severity == "warning"]
+
+leaflet() |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addCircleMarkers(data = prescribed, lng = ~c_lon, lat = ~c_lat, radius = 6, weight = 1.5, fillOpacity = 0.2, color = "#ccc",
+                   label = ~str_glue("{plot} ({sample_status}, {if_else(surveyed, 'surveyed', 'not surveyed')})")) |>
+  addPolylines(data = transects |> select(plot, length_m, midpoint_shift_m, geometry = line) |> st_as_sf(), weight = 4,
+               color = ~if_else(plot %in% flagged, "#b91c1c", "#2563eb"),
+               label = ~str_glue("{plot}: A-B {round(length_m)} m, midpoint shift {round(midpoint_shift_m)} m")) |>
+  addCircleMarkers(data = valid_quadrats, lng = ~lon, lat = ~lat, radius = 3, stroke = FALSE, fillOpacity = 0.8,
+                   fillColor = ~if_else(offset_m > rules$quadrat_offset_m, "#b91c1c", "#16a34a"),
+                   label = ~str_glue("{plot} Q{quadrat_number}: {n_species} taxa, {round(offset_m)} m off line"))
+```
