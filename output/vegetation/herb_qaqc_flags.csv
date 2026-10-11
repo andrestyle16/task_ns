@@ -1,0 +1,233 @@
+level,check,severity,plot,survey_id,item,detail
+survey,submission_rejected,error,SavMon_LW_Plot_21,uuid:c6cc7231-7af6-4bc5-b281-565c53f21763,,excluded from summaries
+survey,submission_rejected,error,SavMon_LW_Plot_18,uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c,,excluded from summaries
+survey,duration_out_of_range,warning,SavMon_LW_Plot_21,uuid:c6cc7231-7af6-4bc5-b281-565c53f21763,,25
+survey,duration_out_of_range,warning,SavMon_LW_Plot_18,uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c,,26
+survey,duration_out_of_range,warning,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,,236
+survey,form_summary_mismatch,info,SavMon_LW_Plot_16,uuid:599e04cf-832f-4535-8305-967918d12026,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_21,uuid:c6cc7231-7af6-4bc5-b281-565c53f21763,,form 18 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_21,uuid:49d73df9-2d36-4a1e-aa29-6f94f23a7513,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_29,uuid:938c15e5-c942-49aa-8e6d-9633189870ff,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_25,uuid:8e5f5c9d-d697-4358-b766-db4a41f28c3e,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_04,uuid:4137458f-31e5-4355-b4ad-47858fb11503,,form 18 vs recomputed 19
+survey,form_summary_mismatch,info,SavMon_LW_Plot_07,uuid:430e85a3-44ce-45f4-9974-c6a61569e78b,,form 17 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_15,uuid:54452130-d92e-4996-a0d7-9401811b9ed7,,form 17 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_20,uuid:b816a9b4-f338-432a-83d7-1cf354583f0f,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_24,uuid:ef5c5535-1739-481b-af66-71061de5dcd2,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_02,uuid:e63b6ad6-7893-4cca-a1db-00fbde18a2aa,,form 17 vs recomputed 19
+survey,form_summary_mismatch,info,SavMon_LW_Plot_01,uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_46,uuid:dae71a1b-a6f9-4a6d-a7e5-8ffbb89fad6f,,form 14 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,,form 16 vs recomputed 19
+survey,form_summary_mismatch,info,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_26,uuid:2439f628-f86d-4770-98d1-ae7b99a4d91f,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,,form 12 vs recomputed 19
+survey,form_summary_mismatch,info,SavMon_LW_Plot_09,uuid:95cde0b4-8b49-4f5d-a3c7-6765e1c06466,,form 19 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_14,uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4,,form 11 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_10,uuid:3865525f-1d45-40fc-83ca-7e30fafe6b54,,form 18 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_30,uuid:c17516f9-53dd-4fda-b4e6-e257068198b9,,form 14 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_22,uuid:ce4f999d-8849-42a9-a870-1205d47b1903,,form 16 vs recomputed 20
+survey,form_summary_mismatch,info,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,,form 19 vs recomputed 20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_21,uuid:49d73df9-2d36-4a1e-aa29-6f94f23a7513,10,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_11,uuid:9e1251bb-84c1-4b7a-a8bb-bafcf7afc82c,4,32
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_18,uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c,19,16
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_29,uuid:938c15e5-c942-49aa-8e6d-9633189870ff,17,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_25,uuid:8e5f5c9d-d697-4358-b766-db4a41f28c3e,1,18
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_04,uuid:4137458f-31e5-4355-b4ad-47858fb11503,3,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_07,uuid:430e85a3-44ce-45f4-9974-c6a61569e78b,1,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_07,uuid:430e85a3-44ce-45f4-9974-c6a61569e78b,2,18
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_07,uuid:430e85a3-44ce-45f4-9974-c6a61569e78b,19,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_01,uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da,2,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_01,uuid:9fd08bb2-7c3f-49f5-8ad8-dd6f45da94da,18,44
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,1,21
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,2,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,4,16
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,18,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,19,18
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,20,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_06,uuid:7ae61d55-3663-422e-aad2-9104b56c9a47,7,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_06,uuid:7ae61d55-3663-422e-aad2-9104b56c9a47,8,16
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_06,uuid:7ae61d55-3663-422e-aad2-9104b56c9a47,9,23
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,1,18
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,3,33
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,7,28
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,9,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,10,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_19,uuid:9ec95900-d4e8-4825-be75-07834b98cc6c,12,26
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,5,19
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,6,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,8,30
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,9,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,10,27
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,11,26
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,12,27
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,13,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,14,16
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_27,uuid:c803a008-7014-4a4e-a485-68e1d90d767c,15,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,1,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,2,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,3,27
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,4,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,5,19
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,6,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,7,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,8,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,9,24
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,10,27
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,11,23
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,12,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,13,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,14,19
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,15,18
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,20,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_09,uuid:95cde0b4-8b49-4f5d-a3c7-6765e1c06466,10,22
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_14,uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4,10,21
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_14,uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4,11,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_14,uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4,14,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_14,uuid:fdf5f121-0a7f-4769-85bb-4717e0361eb4,20,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_30,uuid:c17516f9-53dd-4fda-b4e6-e257068198b9,20,42
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_03,uuid:967cb42c-f21a-4ba6-92be-81cd6d2b0e8d,1,16
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_22,uuid:ce4f999d-8849-42a9-a870-1205d47b1903,17,17
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_12,uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907,7,15
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_12,uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907,20,25
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,12,20
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,13,26
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,14,27
+quadrat,quadrat_off_transect,warning,SavMon_LW_Plot_08,uuid:359a5da6-d237-4203-b838-8596bdbd4935,15,23
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_18,uuid:81e3bc36-700f-465d-a1aa-48ebed04a78c,15,herb_017
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_11,uuid:9e1251bb-84c1-4b7a-a8bb-bafcf7afc82c,2,Sida rhombifolia
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_22,uuid:ce4f999d-8849-42a9-a870-1205d47b1903,14,Macrotyloma daltonii
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_18,uuid:cf362fbc-991a-4db1-8d49-6c1d29fd49c8,2,Oldenladia corymbosa
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_12,uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907,2,herb_010
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_12,uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907,4,herb_017
+quadrat,duplicate_species_in_quadrat,warning,SavMon_LW_Plot_12,uuid:e7de35f0-a715-47f1-885f-fd5a0d9a2907,20,Cenchrus ciliaris
+quadrat,empty_species_entry,warning,SavMon_LW_Plot_28,uuid:c4ea3469-7e1c-474a-9ce6-fc1926e590e2,6,
+quadrat,uninformative_comment,info,SavMon_LW_Plot_29,uuid:938c15e5-c942-49aa-8e6d-9633189870ff,4,","
+quadrat,uninformative_comment,info,SavMon_LW_Plot_07,uuid:430e85a3-44ce-45f4-9974-c6a61569e78b,3,"
+B"
+quadrat,uninformative_comment,info,SavMon_LW_Plot_13,uuid:ebe93f04-c927-4af3-9668-21b6540c01ea,19,"
+"
+quadrat,uninformative_comment,info,SavMon_LW_Plot_17,uuid:b940a5e4-f4ed-4120-ba4e-70f858b86dfd,13,L
+quadrat,uninformative_comment,info,SavMon_LW_Plot_17,uuid:b940a5e4-f4ed-4120-ba4e-70f858b86dfd,17,","
+quadrat,uninformative_comment,info,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,7,.
+quadrat,uninformative_comment,info,SavMon_LW_Plot_05,uuid:5d242bf2-8888-4eb0-9082-431482177425,8,.
+species,canonical_not_Genus_species,info,,,herb_041,Pogonarthria fleckii
+species,canonical_not_Genus_species,info,,,herb_020,Oldenladia corymbosa
+species,canonical_not_Genus_species,info,,,herb_004,Tephrosia purpurea
+species,canonical_not_Genus_species,info,,,herb_001,Evolvulus alsinoides
+species,canonical_not_Genus_species,info,,,herb_013,Xenostegia tridentata
+species,canonical_not_Genus_species,info,,,herb_015,Rhynchosia totta
+species,canonical_not_Genus_species,info,,,herb_063,Sida chrysantha
+species,canonical_not_Genus_species,info,,,herb_104,Justicia divaricata
+species,canonical_not_Genus_species,info,,,herb_027,Macrotalyma daltonii
+species,canonical_not_Genus_species,info,,,herb_102,Cyperus margaritaceus
+species,canonical_not_Genus_species,info,,,herb_098,Zornia glochidiala
+species,canonical_not_Genus_species,info,,,herb_040,Aristida scabrivalvis
+species,canonical_not_Genus_species,info,,,herb_022,Phyllanthus pantandrus
+species,canonical_not_Genus_species,info,,,herb_057,Erlangea misera
+species,canonical_not_Genus_species,info,,,herb_005,Crotolaria sphaerocarpa
+species,canonical_not_Genus_species,info,,,herb_053,Pechuel-loeschea leubnitziae
+species,canonical_not_Genus_species,info,,,herb_074,Hermbstaedtia linearis
+species,canonical_not_Genus_species,info,,,herb_067,Aristida scabrivalvis
+species,canonical_not_Genus_species,info,,,herb_089,Brachiara dura
+species,canonical_not_Genus_species,info,,,herb_018,Crotolaria heidmannii
+species,canonical_not_Genus_species,info,,,herb_069,Asparagus africanus
+species,canonical_not_Genus_species,info,,,herb_028,Jacquemontia tannifolia
+species,canonical_not_Genus_species,info,,,herb_084,Polygala erioptera
+species,canonical_not_Genus_species,info,,,herb_099,Commelina africana
+species,canonical_not_Genus_species,info,,,herb_092,Ipomea leucanthemum
+species,canonical_not_Genus_species,info,,,herb_090,Xenostegia pinnata
+species,canonical_not_Genus_species,info,,,herb_079,Setaria pumila
+species,canonical_not_Genus_species,info,,,herb_083,Pavonia clathrata
+species,canonical_not_Genus_species,info,,,herb_062,Abitulum ramosum
+species,canonical_not_Genus_species,info,,,herb_077,Chamaecrista absus
+species,canonical_not_Genus_species,info,,,herb_075,Cenchrus bifloris
+species,canonical_not_Genus_species,info,,,herb_046,Senna obtusifolia
+species,canonical_not_Genus_species,info,,,herb_073,Indigofera filipes
+species,canonical_not_Genus_species,info,,,herb_064,Ipomea sinensis
+species,canonical_not_Genus_species,info,,,herb_065,Gisekia pharnaceoides
+species,canonical_not_Genus_species,info,,,herb_047,Panicum hirtum
+species,canonical_not_Genus_species,info,,,herb_059,Justicia divaricata
+species,canonical_not_Genus_species,info,,,herb_060,Citrullus naudinianus
+species,canonical_not_Genus_species,info,,,herb_048,Thunbergia reticulata
+species,canonical_not_Genus_species,info,,,herb_050,Hibiscus sidiformis
+species,canonical_not_Genus_species,info,,,herb_051,Boerhavia coccinea
+species,canonical_not_Genus_species,info,,,herb_043,Striga gesnerioides
+species,canonical_not_Genus_species,info,,,herb_032,Rhynchosia minima
+species,canonical_not_Genus_species,info,,,herb_003,Alectra orobanchoides
+species,extra_species_already_on_list,warning,,,herb_007,Kyphocarpa angustifolia ~ Kyphocarpa angustifolia
+species,extra_species_already_on_list,warning,,,herb_016,Cenchrus ciliaris ~ Cenchrus ciliaris
+species,extra_species_already_on_list,warning,,,herb_053,Pechuel-loeschea leubnitziae ~ Pechuel-loeschea leubnitziae
+species,extra_species_already_on_list,warning,,,herb_095,Chloris virgata ~ Chloris virgata
+species,extra_species_already_on_list,warning,,,herb_052,Corchorus tridens ~ Corchorus tridens
+species,extra_species_already_on_list,warning,,,herb_006,Indigofera tinctoria ~ Indigofera tinctoria
+species,extra_species_already_on_list,warning,,,herb_008,Ocimum americanum ~ Ocimum americanum
+species,same_identification_multiple_codes,warning,,,herb_004,Tephrosia purpurea
+species,same_identification_multiple_codes,warning,,,herb_001,Evolvulus alsinoides
+species,same_identification_multiple_codes,warning,,,herb_104,Justicia divaricata
+species,same_identification_multiple_codes,warning,,,herb_040,Aristida scabrivalvis
+species,same_identification_multiple_codes,warning,,,herb_049,Ipomea dichroa
+species,same_identification_multiple_codes,warning,,,herb_067,Aristida scabrivalvis
+species,same_identification_multiple_codes,warning,,,herb_014,Crotolaria pisicarpa
+species,same_identification_multiple_codes,warning,,,herb_019,Ipomea dichroa
+species,same_identification_multiple_codes,warning,,,herb_093,Evolvulus alsinoides
+species,same_identification_multiple_codes,warning,,,herb_070,Rhynchosia minima
+species,same_identification_multiple_codes,warning,,,herb_031,Crotolaria pisicarpa
+species,same_identification_multiple_codes,warning,,,herb_055,Tephrosia purpurea
+species,same_identification_multiple_codes,warning,,,herb_059,Justicia divaricata
+species,same_identification_multiple_codes,warning,,,herb_032,Rhynchosia minima
+species,same_identification_multiple_codes,warning,,,herb_021,Ipomea dichroa
+species,same_identification_multiple_codes,warning,,,herb_025,Ipomea dichroa
+species,typed_name_differs_from_identification,info,,,herb_027,Macrotalyma daltonii -> Macrotyloma daltonii
+species,typed_name_differs_from_identification,info,,,herb_022,Phyllanthus pantandrus -> Phyllanthus pentandrus
+species,typed_name_differs_from_identification,info,,,herb_028,Jacquemontia tannifolia -> Jacquemontia tamnifolia
+species,typed_name_differs_from_identification,info,,,herb_062,Abitulum ramosum -> Abutilon ramosum
+species,typed_name_differs_from_identification,info,,,herb_050,Hibiscus sidiformis -> Hibiscuc sidiformis
+species,identification_note,warning,,,herb_100,duplicate of wood_005 but below 40cm so should be excluded
+species,identification_note,warning,,,herb_058,duplicate of herb_011
+species,identification_note,warning,,,herb_072,duplicate of herb_036
+species,identification_note,warning,,,herb_071,woody but below 40cm so should be excluded
+species,identification_note,warning,,,herb_033,duplicate of herb_011
+species,identification_note,warning,,,herb_039,duplicate of herb_011
+species,still_unidentified,info,,,herb_002,
+species,still_unidentified,info,,,herb_011,
+species,still_unidentified,info,,,herb_010,
+species,still_unidentified,info,,,herb_045,
+species,still_unidentified,info,,,herb_094,
+species,still_unidentified,info,,,herb_017,
+species,still_unidentified,info,,,herb_100,
+species,still_unidentified,info,,,herb_076,
+species,still_unidentified,info,,,herb_058,
+species,still_unidentified,info,,,herb_097,
+species,still_unidentified,info,,,herb_068,
+species,still_unidentified,info,,,herb_086,
+species,still_unidentified,info,,,herb_087,
+species,still_unidentified,info,,,herb_038,
+species,still_unidentified,info,,,herb_061,
+species,still_unidentified,info,,,herb_037,
+species,still_unidentified,info,,,herb_078,
+species,still_unidentified,info,,,herb_082,
+species,still_unidentified,info,,,herb_034,
+species,still_unidentified,info,,,herb_072,
+species,still_unidentified,info,,,herb_066,
+species,still_unidentified,info,,,herb_056,
+species,still_unidentified,info,,,herb_033,
+species,still_unidentified,info,,,herb_042,
+species,still_unidentified,info,,,herb_026,
+species,still_unidentified,info,,,herb_036,
+species,still_unidentified,info,,,herb_039,
+species,still_unidentified,info,,,herb_030,
+plot,transect_length,warning,SavMon_LW_Plot_29,,,62
+plot,transect_length,warning,SavMon_LW_Plot_15,,,60
+plot,transect_length,warning,SavMon_LW_Plot_01,,,63
+plot,transect_length,warning,SavMon_LW_Plot_19,,,23
+plot,transect_length,warning,SavMon_LW_Plot_27,,,29
+plot,transect_length,warning,SavMon_LW_Plot_22,,,66
+plot,midpoint_shift,warning,SavMon_LW_Plot_14,,,34
+plot,plot_not_viable,info,SavMon_LW_Plot_23,,,On private property
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_23,,,registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_31,,,not registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_32,,,not registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_33,,,not registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_34,,,not registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_35,,,not registered
+plot,primary_plot_not_surveyed,info,SavMon_LW_Plot_36,,,not registered
