@@ -1,0 +1,143 @@
+---
+title: "Herbaceous vegetation surveys: data quality report"
+subtitle: "Savanna Monitoring Pilot (SAVMON), Lewa, baseline 2026"
+toc: true
+format:
+  html:
+    code-fold: true
+    theme: simplex
+    fig-width: 9
+    fig-height: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+library(sf)
+library(leaflet)
+library(vegan)
+library(DT)
+
+here::i_am("scripts/r_code/quarto/vegetation_qaqc.qmd")
+```
+
+## 1. Approach
+
+The ODK exports are joined into four tidy tables (surveys, quadrats, species
+observations, transects) and run through QA/QC checks derived from the SOPs. Each check
+is one filter that appends rows to a single `flags` table; **no data are modified**.
+Submissions rejected in ODK Central are reported but excluded from the summaries.
+Thresholds live in `rules` so they can be tuned.
+
+```{r}
+rules <- list(
+  quadrats_per_plot = 20L,
+  transect_m        = 50, transect_tol_m = 10,   # SOP: 50 m belt transect
+  gps_max_m         = 5,                         # SOP: geopoint accuracy <= 5 m
+  midpoint_shift_m  = 25,                        # SOP: midpoint moved at most 25 m
+  quadrat_offset_m  = 15,                        # 2.5 m belt + handheld-GPS error
+  duration_min      = c(30, 180)
+)
+```
+
+## 2. Read and clean
+
+```{r}
+read_ns <- function(f) read_csv(here("input/vegetation/csv", f), show_col_types = FALSE) |> clean_names()
+
+sv <- read_ns("odk_data_exports/herbaceous_veg_survey.csv")
+qd <- read_ns("odk_data_exports/herbaceous_veg_survey-quadrat_repeat.csv")
+ad <- read_ns("odk_data_exports/herbaceous_veg_survey-additional_species_repeat.csv")
+rg <- read_ns("odk_data_exports/register_vegetation_plots.csv")
+species       <- read_ns("entity_lists/species.csv")
+species_extra <- read_ns("entity_lists/species_extra.csv")
+species_ids   <- read_ns("entity_lists/species_extra_ids.csv")   # post-hoc identification of herb_NNN codes
+centroids     <- read_ns("entity_lists/centroids.csv")
+team          <- read_ns("entity_lists/project_team.csv")
+
+stopifnot(all(qd$parent_key %in% sv$key), all(ad$parent_key %in% qd$key),
+          !anyDuplicated(rg$plot_selection_plot_name), !anyDuplicated(species_ids$species_number))
+```
+
+```{r}
+team_of <- function(uuids) map_chr(str_split(uuids, " "), \(u) paste(team$label[match(u, team$id)], collapse = ", "))
+
+surveys <- sv |>
+  transmute(survey_id = key, plot = plot_selection_plot_name, recorder = field_team_specifics_recorder_label,
+            team = team_of(field_team_specifics_selected_project_team_uuid_multi),
+            start = survey_begin_start_time, end = survey_end_end_time, date = as_date(start),
+            duration_min = as.numeric(difftime(end, start, units = "mins")),
+            quadrats_with_species_form = survey_end_quadrats_with_species,
+            review_state, rejected = coalesce(review_state == "rejected", FALSE))
+
+quadrats <- qd |>
+  transmute(quadrat_id = key, survey_id = parent_key, quadrat_number, herbs_present = herbs_present == "yes",
+            known_uuids = herb_species_selected_herb_species_uuids, image = quadrat_image,
+            lon = location_quadrat_longitude, lat = location_quadrat_latitude,
+            gps_accuracy = location_quadrat_accuracy, comment = quadrat_comment) |>
+  left_join(select(surveys, survey_id, plot, rejected), by = "survey_id")
+```
+
+Species on the project list arrive as `species` uuids. Species not on the list or not
+identifiable in the field are written to `species_extra` as `herb_NNN` codes and identified
+later in `species_extra_ids`; a code still marked `Unknown` keeps its code as the name.
+
+```{r}
+obs <- bind_rows(
+  quadrats |> select(quadrat_id, species_uuid = known_uuids) |>
+    separate_longer_delim(species_uuid, " ") |> filter(!is.na(species_uuid), species_uuid != "") |>
+    left_join(select(species, species_uuid = id, name = label), by = "species_uuid") |> mutate(source = "list"),
+  ad |> transmute(quadrat_id = parent_key, source = "extra", typed_name = new_missing_canonical,
+                  # reuse_* rows carry the uuid in select_*; new_* rows create the entity in target_extra_name
+                  species_uuid = coalesce(select_reuse_unknown, select_reuse_missing, target_extra_name)) |>
+    left_join(species_extra |> transmute(id, code = sprintf("%s_%03d", if_else(group_type == "herb", "herb", "wood"), unknown_index)),
+              by = c(species_uuid = "id")) |>
+    left_join(species_ids |> select(code = species_number, identified = species_name, id_notes = notes), by = "code") |>
+    mutate(name = if_else(coalesce(identified != "Unknown", FALSE), identified, code))
+) |>
+  left_join(select(quadrats, quadrat_id, survey_id, plot, quadrat_number, rejected), by = "quadrat_id") |>
+  mutate(status = case_when(source == "list" ~ "on list", name == code ~ "unknown", TRUE ~ "identified later"))
+```
+
+```{r}
+pt <- function(lon, lat) st_as_sf(tibble(lon, lat), coords = c("lon", "lat"), crs = 4326, na.fail = FALSE)$geometry
+
+plots <- rg |>
+  transmute(plot = plot_selection_plot_name, plot_status = plot_selection_sample_status,
+            viable = plot_selection_is_plot_viable == "yes", notes = plot_selection_plot_establishment_notes,
+            a = pt(plot_metadata_collect_points_endpoint_a_location_endpoint_a_longitude,
+                   plot_metadata_collect_points_endpoint_a_location_endpoint_a_latitude),
+            m = pt(plot_metadata_collect_points_midpoint_location_midpoint_longitude,
+                   plot_metadata_collect_points_midpoint_location_midpoint_latitude),
+            b = pt(plot_metadata_collect_points_endpoint_b_location_endpoint_b_longitude,
+                   plot_metadata_collect_points_endpoint_b_location_endpoint_b_latitude))
+
+prescribed <- centroids |>
+  separate(geometry, c("c_lat", "c_lon"), sep = " ", extra = "drop", convert = TRUE) |>
+  transmute(plot = choice_name, sample_status, c_lon, c_lat,
+            registered = plot %in% plots$plot, surveyed = plot %in% filter(surveys, !rejected)$plot)
+
+transects <- plots |>
+  filter(viable) |>
+  left_join(select(prescribed, plot, c_lon, c_lat), by = "plot") |>
+  mutate(line = st_sfc(map2(a, b, \(p, q) st_linestring(rbind(st_coordinates(p), st_coordinates(q)))), crs = 4326),
+         length_m = as.numeric(st_distance(a, b, by_element = TRUE)),
+         midpoint_shift_m = as.numeric(st_distance(m, pt(c_lon, c_lat), by_element = TRUE)))
+
+quadrats <- quadrats |>
+  left_join(select(transects, plot, line), by = "plot") |>
+  mutate(offset_m = as.numeric(st_distance(pt(lon, lat), line, by_element = TRUE))) |>
+  select(-line) |>
+  left_join(obs |> filter(!is.na(name)) |> summarise(n_species = n_distinct(name), .by = quadrat_id), by = "quadrat_id") |>
+  mutate(n_species = coalesce(n_species, 0L))
+
+surveys <- surveys |>
+  left_join(summarise(quadrats, n_quadrats = n(), quadrats_with_species = sum(n_species > 0), .by = survey_id), by = "survey_id") |>
+  mutate(across(c(n_quadrats, quadrats_with_species), \(x) coalesce(x, 0L)))
+```
+
