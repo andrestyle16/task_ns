@@ -23,7 +23,7 @@ library(leaflet)
 library(vegan)
 library(DT)
 
-here::i_am("scripts/r_code/quarto/vegetation_qaqc.qmd")
+here::i_am("scripts/quarto/vegetation_qaqc.qmd")
 ```
 
 ## 1. Approach
