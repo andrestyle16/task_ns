@@ -339,3 +339,29 @@ leaflet() |>
                    fillColor = ~if_else(offset_m > rules$quadrat_offset_m, "#b91c1c", "#16a34a"),
                    label = ~str_glue("{plot} Q{quadrat_number}: {n_species} taxa, {round(offset_m)} m off line"))
 ```
+
+## 5. All flags
+
+```{r}
+datatable(arrange(flags, severity, level, check, plot), rownames = FALSE, filter = "top")
+```
+
+## 6. Notes for the Tech team
+
+- **Inputs**: the four ODK exports plus the entity lists `species`, `species_extra`,
+  `species_extra_ids`, `centroids`, `project_team`. All joins use ODK `KEY`/`PARENT_KEY`
+  and entity uuids; the only string matching is the fuzzy "already on list" check.
+- **Derived tables** (PostgreSQL views): `surveys`, `quadrats`, `observations` (quadrat x
+  taxon with `status`), `transects`. Species resolve as
+  `uuid -> species_extra.unknown_index -> species_extra_ids.species_name`, so updating the
+  identification list updates the observations.
+- **Checks**: each rule is one filter with its threshold in `rules`; the output is one long
+  `flags` table (`level, check, severity, plot, survey_id, item, detail`) keyed on
+  submission. The dashboard is flag counts by severity and check plus the map.
+- **Form issues to fix upstream**: `quadrats_with_species` undercounts in 23 of 32
+  submissions although its own XPath rule reproduces the recomputed value, so recompute it
+  server-side. New species claim the n-th inactive placeholder of `species_extra` as seen
+  by the device, so two offline devices can claim the same uuid; assign it server-side.
+- **To confirm with Biometrics**: the 15 m off-transect tolerance, whether codes noted as
+  "duplicate of" should be merged before computing richness, and whether `Genus_species`
+  should be enforced by the form constraint.
