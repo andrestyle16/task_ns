@@ -1,7 +1,7 @@
 # BirdNET predictions to observations
 
 Grid2 acoustic recorders, June to July 2023, BirdNET v2.4.
-Code: [`birds_analysis.qmd`](../scripts/r_code/quarto/birds_analysis.qmd). The labelled predictions are in [`birdnet_predictions_labeled.csv`](../output/birds/birdnet_predictions_labeled.csv) and the per-species thresholds in [`birdnet_species_thresholds.csv`](../output/birds/birdnet_species_thresholds.csv).
+Code: [`birds_analysis.qmd`](../scripts/quarto/birds_analysis.qmd). The labelled predictions are in [`birdnet_predictions_labeled.csv`](../output/birds/birdnet_predictions_labeled.csv) and the per-species thresholds in [`birdnet_species_thresholds.csv`](../output/birds/birdnet_species_thresholds.csv).
 
 ## What I did
 
@@ -58,7 +58,7 @@ Things to agree with the Biometrics team: the five-false-positive rule, whether 
 ## Reproduce
 
 ```
-quarto render scripts/r_code/quarto/birds_analysis.qmd
+quarto render scripts/quarto/birds_analysis.qmd
 ```
 
 Writes the HTML, the three CSVs in `output/birds` and the figure in `reports/figures`. R 4.5 with tidyverse, janitor and here.
