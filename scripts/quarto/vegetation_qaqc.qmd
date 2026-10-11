@@ -141,3 +141,109 @@ surveys <- surveys |>
   mutate(across(c(n_quadrats, quadrats_with_species), \(x) coalesce(x, 0L)))
 ```
 
+## 3. QA/QC checks
+
+`error`: record cannot be used as is. `warning`: needs review. `info`: documents a known situation.
+
+```{r}
+flag <- function(df, level, check, severity, item = NA, detail = NA) {
+  transmute(df, level = .env$level, check = .env$check, severity = .env$severity, across(any_of(c("plot", "survey_id"))),
+            item = as.character({{ item }}), detail = as.character({{ detail }}))   # bind_rows fills absent plot/survey_id with NA
+}
+
+list_names <- species$label[species$groups == "herbaceous"]
+on_list    <- function(x) map_chr(x, \(n) first(agrep(n, list_names, max.distance = 0.1, value = TRUE), default = NA))
+extra_taxa <- obs |> filter(source == "extra", !is.na(code)) |>
+  summarise(name = first(name), typed_name = first(na.omit(typed_name)), id_notes = first(id_notes), .by = code)
+
+flags <- bind_rows(
+  surveys |> filter(rejected) |> flag("survey", "submission_rejected", "error", detail = "excluded from summaries"),
+  surveys |> filter(!rejected) |> add_count(plot) |> filter(n > 1) |> flag("survey", "duplicate_plot_submission", "error", detail = date),
+  surveys |> filter(n_quadrats != rules$quadrats_per_plot) |> flag("survey", "quadrat_count", "error", detail = n_quadrats),
+  surveys |> filter(is.na(duration_min) | !between(duration_min, rules$duration_min[1], rules$duration_min[2])) |>
+    flag("survey", "duration_out_of_range", "warning", detail = round(duration_min)),
+  surveys |> filter(quadrats_with_species_form != quadrats_with_species) |>
+    flag("survey", "form_summary_mismatch", "info", detail = str_glue("form {quadrats_with_species_form} vs recomputed {quadrats_with_species}")),
+
+  quadrats |> filter(is.na(image) | is.na(lon)) |> flag("quadrat", "missing_image_or_location", "error", item = quadrat_number),
+  quadrats |> filter(gps_accuracy > rules$gps_max_m) |> flag("quadrat", "gps_accuracy", "warning", item = quadrat_number, detail = gps_accuracy),
+  quadrats |> filter(offset_m > rules$quadrat_offset_m) |> flag("quadrat", "quadrat_off_transect", "warning", item = quadrat_number, detail = round(offset_m)),
+  quadrats |> filter(herbs_present != (n_species > 0)) |> flag("quadrat", "herbs_present_inconsistent", "error", item = quadrat_number, detail = n_species),
+  obs |> filter(!is.na(name)) |> count(survey_id, plot, quadrat_number, name) |> filter(n > 1) |>
+    flag("quadrat", "duplicate_species_in_quadrat", "warning", item = quadrat_number, detail = name),
+  obs |> filter(source == "extra", is.na(species_uuid)) |> flag("quadrat", "empty_species_entry", "warning", item = quadrat_number),
+  quadrats |> filter(nchar(str_squish(comment)) < 3) |> flag("quadrat", "uninformative_comment", "info", item = quadrat_number, detail = comment),
+
+  extra_taxa |> filter(!str_detect(typed_name, "^[A-Z][a-z-]+_[a-z-]+$")) |> flag("species", "canonical_not_Genus_species", "info", item = code, detail = typed_name),
+  extra_taxa |> mutate(match = on_list(name)) |> filter(!is.na(match)) |> flag("species", "extra_species_already_on_list", "warning", item = code, detail = str_glue("{name} ~ {match}")),
+  extra_taxa |> filter(name != code) |> add_count(name) |> filter(n > 1) |> flag("species", "same_identification_multiple_codes", "warning", item = code, detail = name),
+  extra_taxa |> filter(str_to_lower(typed_name) != str_to_lower(name)) |> flag("species", "typed_name_differs_from_identification", "info", item = code, detail = str_glue("{typed_name} -> {name}")),
+  extra_taxa |> filter(!is.na(id_notes)) |> flag("species", "identification_note", "warning", item = code, detail = id_notes),
+  extra_taxa |> filter(name == code) |> flag("species", "still_unidentified", "info", item = code),
+
+  transects |> filter(abs(length_m - rules$transect_m) > rules$transect_tol_m) |> flag("plot", "transect_length", "warning", detail = round(length_m)),
+  transects |> filter(midpoint_shift_m > rules$midpoint_shift_m) |> flag("plot", "midpoint_shift", "warning", detail = round(midpoint_shift_m)),
+  plots |> filter(!viable) |> flag("plot", "plot_not_viable", "info", detail = notes),
+  prescribed |> filter(sample_status == "primary", !surveyed) |> flag("plot", "primary_plot_not_surveyed", "info", detail = if_else(registered, "registered", "not registered"))
+)
+
+dir.create(here("output/vegetation"), recursive = TRUE, showWarnings = FALSE)
+write_csv(flags, here("output/vegetation/herb_qaqc_flags.csv"), na = "")
+
+# rejected submissions are reported above but excluded from everything that follows
+valid_surveys  <- filter(surveys, !rejected)
+valid_quadrats <- filter(quadrats, !rejected)
+valid_obs      <- filter(obs, !rejected, !is.na(name))
+n_flags <- function(df, by) df |> filter(severity != "info", !is.na(.data[[by]])) |> summarise(n_flags = n(), .by = all_of(by))
+
+flags |> count(level, severity, check) |> arrange(level, severity) |> knitr::kable()
+```
+
+### Key findings
+
+**Submissions.** `r nrow(surveys)` submissions between `r format(min(surveys$date), "%d")` and
+`r format(max(surveys$date), "%d %B %Y")` by two recorders. Two are duplicates of plots 18 and 21
+that were rejected in ODK Central, and the remaining `r sum(!surveys$rejected)` all have 20
+quadrats. Durations range from `r round(min(valid_surveys$duration_min))` to
+`r round(max(valid_surveys$duration_min))` minutes; the longest (Plot_08) was the first survey
+of the campaign, and the two rejected duplicates were the only ones under 30 minutes. There is
+no sign of rushed or incomplete surveys.
+
+**Coverage.** Of `r sum(prescribed$sample_status == "primary")` prescribed primary plots,
+`r sum(prescribed$surveyed & prescribed$sample_status == "primary")` were surveyed. Plot_23 was
+registered as non-viable (private property) and correctly replaced by backup Plot_46; the other
+`r sum(prescribed$sample_status == "primary" & !prescribed$registered)` were never registered.
+The baseline is therefore `r sum(prescribed$sample_status == "primary") - sum(prescribed$surveyed)`
+plots short of the design until those are visited or replaced with backups.
+
+**Transect layout.** Six A-B lengths fall outside 40-60 m. Four are 60-66 m, which is
+within GPS error at both ends, but Plot_19 (23 m) and Plot_27 (29 m) are half the prescribed
+length: either an endpoint was recorded near the midpoint or the tape was not fully laid out.
+Plot_14's midpoint is 34 m from its prescribed centroid, over the 25 m limit.
+`r sum(valid_quadrats$offset_m > rules$quadrat_offset_m)` quadrats
+(`r round(100 * mean(valid_quadrats$offset_m > rules$quadrat_offset_m))`%) sit more than
+15 m from the A-B line, concentrated in Plot_05 (16 quadrats, median 22 m) and Plot_27 (10).
+With 5 m GPS accuracy these are layout errors rather than noise, and both plots should be
+treated as suspect until the field team confirms where the quadrats were placed.
+
+**Species list.** Only `r n_distinct(valid_obs$name[valid_obs$status == "on list"])` of the
+`r n_distinct(valid_obs$name)` taxa recorded were on the project list;
+`r n_distinct(valid_obs$name[valid_obs$status == "identified later"])` were entered as missing
+or unknown and identified afterwards, and `r n_distinct(valid_obs$name[valid_obs$status == "unknown"])`
+remain unidentified codes. `r round(100 * mean(valid_obs$source == "extra"))`% of all records
+went through the free-text route, which is the main quality risk in this dataset: seven of the
+"new" species were already on the list (e.g. *Chloris virgata*, *Cenchrus ciliaris*), seven
+species were entered under two to four different codes (16 codes in total), five typed names
+have spelling errors, and the identification notes mark four codes as duplicates of other
+codes and two as woody plants to exclude. The project list should be updated with the
+identified species before the next survey. Until duplicate codes are merged, richness values
+in this report are upper bounds.
+
+**Quadrat records.** Seven quadrats have the same species entered twice, one species entry is
+empty, and seven comments are punctuation only. All minor, but the duplicates show that the
+form lets a species be selected both from the list and as an additional entry.
+
+**Form behaviour.** The form's own count of quadrats with species undercounts in 23 of 32
+submissions. This is a calculation-timing issue in the ODK form, not a field error, and the
+platform should recompute it.
+
